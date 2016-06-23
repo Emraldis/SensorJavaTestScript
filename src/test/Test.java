@@ -26,7 +26,7 @@ public class Test {
      * @throws java.lang.InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        System.out.println("Setting up pins");
+        System.out.println("Setting up 2 pins");
         final GpioController gpio = GpioFactory.getInstance();
         final GpioPinDigitalInput button = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, PinPullResistance.PULL_DOWN);
         button.addListener(new GpioPinListenerDigital(){
