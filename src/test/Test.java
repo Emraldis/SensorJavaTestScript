@@ -47,6 +47,10 @@ public class Test {
             }
             
         });
+        
+        for (;;) {
+            Thread.sleep(500);
+        }
     }
     
 }
