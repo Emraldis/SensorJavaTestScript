@@ -27,7 +27,8 @@ public class LogicRelay {
     Scanner tempRead;
     GpioPinDigitalOutput pinOne;
     GpioPinDigitalOutput pinTwo;
-    public LogicRelay (GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, String tempLogFile) {
+    SystemController sysData;
+    public LogicRelay (GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, String tempLogFile, SystemController sysData) {
         pinOne = outputOne;
         pinTwo = outputTwo;
         try {
@@ -38,6 +39,7 @@ public class LogicRelay {
         }
         pinOne.low();
         pinTwo.low();
+        this.sysData = sysData;
     }
     public void incubate (int time, LedIndicator led){
         int i = 0;
@@ -65,10 +67,10 @@ public class LogicRelay {
             System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
             led.toggle();
             i = i + 100;
-            if(temp < 33.00){
+            if(temp < sysData.lowerThresholdTemp){
                 pinOne.high();
                 pinTwo.low();
-            }else if(temp > 46.00){
+            }else if(temp > sysData.upperThresholdTemp){
                 pinOne.low();
                 pinTwo.high();
             }

@@ -79,10 +79,10 @@ public class Sensor {
         LedIndicator ledThree = new LedIndicator(ledThreePin);
         LedIndicator ledFour = new LedIndicator(ledFourPin);
         //Creating logic relay control classes
-        LogicRelay logicOne = new LogicRelay(LogicOneAPin,LogicOneBPin,tempLogFileOne);
-        LogicRelay logicTwo = new LogicRelay(LogicTwoAPin,LogicTwoBPin,tempLogFileTwo);
-        LogicRelay logicThree = new LogicRelay(LogicThreeAPin,LogicThreeBPin,tempLogFileThree);
-        LogicRelay logicFour = new LogicRelay(LogicFourAPin,LogicFourBPin,tempLogFileFour);
+        LogicRelay logicOne = new LogicRelay(LogicOneAPin,LogicOneBPin,tempLogFileOne,sysControl);
+        LogicRelay logicTwo = new LogicRelay(LogicTwoAPin,LogicTwoBPin,tempLogFileTwo,sysControl);
+        LogicRelay logicThree = new LogicRelay(LogicThreeAPin,LogicThreeBPin,tempLogFileThree,sysControl);
+        LogicRelay logicFour = new LogicRelay(LogicFourAPin,LogicFourBPin,tempLogFileFour,sysControl);
         //Creating Mux Controller class
         MuxControl muxController = new MuxControl(MuxOnePin,MuxTwoPin,MuxThreePin,MuxFourPin,sysControl);
         //Creating Button classes
@@ -108,15 +108,19 @@ public class Sensor {
                 if(menu.equals("1") == true){
                     System.out.println("\nPlease enter new Upper threshold temperature\n");
                     sysControl.upperThresholdTemp = scanner.nextFloat();
+                    System.out.println("\nNew Upper threshold is " + sysControl.upperThresholdTemp);
                 }else if(menu.equals("2") == true){
                     System.out.println("\nPlease enter new Lower threshold temperature\n");
                     sysControl.lowerThresholdTemp = scanner.nextFloat();
+                    System.out.println("\nNew Lower threshold is " + sysControl.lowerThresholdTemp);
                 }else if(menu.equals("3") == true){
                     System.out.println("\nPlease enter a new incubation time\n");
                     sysControl.incubateTime = scanner.nextInt();
+                    System.out.println("\nNew Incubate time is " + sysControl.incubateTime);
                 }else if(menu.equals("4") == true){
                     System.out.println("\nPlease enter a new Mux lockout time\n");
                     sysControl.muxLockoutTime = scanner.nextInt();
+                    System.out.println("\nNew Mux Lockout time is " + sysControl.muxLockoutTime);
                 }else if(menu.equals("5") == true){
                     System.out.println("\nExiting debug menu");
                     menu = " ";
@@ -124,6 +128,7 @@ public class Sensor {
                     System.out.println("\nInvalid menu option, please try again.\n");
                     menu = scanner.next();
                 }
+                menu = "d";
             }
         }
     }
