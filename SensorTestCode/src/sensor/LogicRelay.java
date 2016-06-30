@@ -87,7 +87,9 @@ public class LogicRelay {
                 pinTwo.high();
             }
             if(sysData.systemOutput){
-                System.out.println("\nSYSTEM - Incubation time remaining: " + ((time - i)/100));
+                if((((time - i)/100) % 10) == 0){
+                    System.out.println("\nSYSTEM - Incubation time remaining: " + ((time - i)/100));    
+                }
             }
         }
         System.out.println("\nSYSTEM - Incubation completed, setting MUX");

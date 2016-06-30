@@ -42,8 +42,8 @@ public class Sensor {
         SystemController sysControl = new SystemController();
         sysControl.buttonControl = true;
         sysControl.muxControl = true;
-        sysControl.incubateTime = 10000;
-        sysControl.muxLockoutTime = 10000;
+        sysControl.incubateTime = 12000;
+        sysControl.muxLockoutTime = 12000;
         sysControl.upperThresholdTemp = 46;
         sysControl.lowerThresholdTemp = 33;
         sysControl.systemOutput = true;
