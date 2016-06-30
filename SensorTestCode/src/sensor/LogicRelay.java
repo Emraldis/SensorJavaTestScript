@@ -37,7 +37,8 @@ public class LogicRelay {
     }
     public void incubate (int time, LedIndicator led, String tempLogFile){
         int i = 0;
-        long temp = 0;
+        long tempLong = 0;
+        float temp = 0;
         StringTokenizer strTok;
         String input;
         String tempString = " ";
@@ -61,8 +62,8 @@ public class LogicRelay {
                         tempString = strTok.nextToken();
                     }
                     System.out.println("\n" + tempString);
-                    temp = Long.parseLong(tempString);
-                    temp = temp/1000;
+                    tempLong = Long.parseLong(tempString);
+                    temp = tempLong/1000;
                 }else{
                     System.out.println("\nError Reading Temperature");
                 }
@@ -70,10 +71,14 @@ public class LogicRelay {
             System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
             led.toggle();
             i = i + 100;
+            pinOne.low();
+            pinTwo.low();
             if(temp < sysData.lowerThresholdTemp){
+                System.out.println("\nSYSTEM - Temperature too low, adjusting.");
                 pinOne.high();
                 pinTwo.low();
             }else if(temp > sysData.upperThresholdTemp){
+                System.out.println("\nSYSTEM - Temperature too high, adjusting.");
                 pinOne.low();
                 pinTwo.high();
             }
