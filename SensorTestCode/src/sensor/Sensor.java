@@ -130,7 +130,7 @@ public class Sensor {
                     menu = " ";
                 }else{
                     System.out.println("\nInvalid menu option, please try again.\n");
-                    menu = scanner.next();
+                    menu = "d";
                 }
             }
         }
