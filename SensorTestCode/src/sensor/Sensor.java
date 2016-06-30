@@ -31,10 +31,10 @@ public class Sensor {
     public static void main(String[] args) {
         String menu = " ";
         Scanner scanner = new Scanner(System.in);
-        String tempLogFileOne = "/sys/bus/w1/devices/SERIAL_NUMBER/w1_slave";
-        String tempLogFileTwo = "/sys/bus/w1/devices/SERIAL_NUMBER/w1_slave";
-        String tempLogFileThree = "/sys/bus/w1/devices/SERIAL_NUMBER/w1_slave";
-        String tempLogFileFour = "/sys/bus/w1/devices/SERIAL_NUMBER/w1_slave";
+        String tempLogFileOne = "/sys/bus/w1/devices/28-000007f9caa2/w1_slave";
+        String tempLogFileTwo = "/sys/bus/w1/devices/28-000007fa0cdf/w1_slave";
+        String tempLogFileThree = "/sys/bus/w1/devices/28-000007fa462b/w1_slave";
+        String tempLogFileFour = "/sys/bus/w1/devices/28-000007fa67e6/w1_slave";
         
         //Setting up GPIO controller
         final GpioController gpio = GpioFactory.getInstance();
