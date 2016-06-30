@@ -41,7 +41,28 @@ public class LogicRelay {
     }
     public void incubate (int time, LedIndicator led){
         int i = 0;
-        while((tempRead.hasNextLong() == true) && (i < time)){
+        long temp = 0;
+        StringTokenizer strTok;
+        String input;
+        String tempString = " ";
+        while(i < time){
+            while(tempRead.hasNextLine()){
+                input = tempRead.nextLine();
+                strTok = new StringTokenizer(input," ");
+                while(strTok.hasMoreTokens()){
+                    tempString = strTok.nextToken();
+                }
+                if(tempString.equalsIgnoreCase("YES")){
+                    input = tempRead.nextLine();
+                    strTok = new StringTokenizer(input,"=");
+                    while(strTok.hasMoreTokens()){
+                        tempString = strTok.nextToken();
+                    }
+                    temp = Long.parseLong(tempString);
+                    temp = temp/1000;
+                }
+            }
+            System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
             led.toggle();
             i = i + 100;
             if((tempRead.nextLong() / 1000) < 33.00){

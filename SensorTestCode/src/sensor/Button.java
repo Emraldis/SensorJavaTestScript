@@ -28,9 +28,10 @@ public class Button {
 
             @Override
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+                System.out.println("\nButton " + buttonID + " pushed");
                 if(sysControl.buttonControl != false){
+                    System.out.println("\nButton Lockdown Started");
                     sysControl.buttonControl = false;
-                    System.out.println("\nButton " + buttonID + " pushed");
                     logicGate.incubate(sysControl.incubateTime,led);
                     
                     try {
@@ -44,7 +45,9 @@ public class Button {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+                    System.out.println("\nButton Lockdown dropped");
+                }else{
+                    System.out.println("\nButtons Currently under Lockdown");
                 }
             }
             
