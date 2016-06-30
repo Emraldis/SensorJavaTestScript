@@ -33,12 +33,12 @@ public class Button {
                     System.out.println("\nButton Lockdown Started");
                     sysControl.buttonControl = false;
                     logicGate.incubate(sysControl.incubateTime,led,tempLogFile);
-                    
+                    /*
                     try {
                         led.blink(sysControl.incubateTime, 1000, 1000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    }*/
                     sysControl.buttonControl = true;
                     try {
                         mux.setMux(buttonID);
@@ -47,7 +47,7 @@ public class Button {
                     }
                     System.out.println("\nButton Lockdown dropped");
                 }else{
-                    System.out.println("\nButtons Currently under Lockdown");
+                    //System.out.println("\nButtons Currently under Lockdown");
                 }
             }
             
