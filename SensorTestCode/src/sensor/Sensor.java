@@ -97,7 +97,7 @@ public class Sensor {
         
         while(menu.equalsIgnoreCase("q") == false){
             menu = scanner.next();
-            if(menu.equalsIgnoreCase("d") == true){
+            while(menu.equalsIgnoreCase("d") == true){
                 System.out.println("\nDebug Menu:"
                         + "\n1) Change upper threshold temperature"
                         + "\n2) Change lower threshold temperature"
