@@ -71,6 +71,8 @@ public class Sensor {
         final GpioPinDigitalOutput MuxThreePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "MUXPinThree", PinState.LOW);
         final GpioPinDigitalOutput MuxFourPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, "MUXPinFour", PinState.LOW);
         
+        System.out.println("\nSYSTEM - Pin setup Completed");
+        
         //Creating LED indicator classes
         LedIndicator ledOne = new LedIndicator(ledOnePin);
         LedIndicator ledTwo = new LedIndicator(ledTwoPin);
@@ -89,7 +91,9 @@ public class Sensor {
         Button buttonThree = new Button(sysControl,buttonThreePin,logicThree,ledThree,muxController,3);
         Button buttonFour = new Button(sysControl,buttonFourPin,logicFour,ledFour,muxController,4);
         
-        System.out.println();
+        System.out.println("\nSYSTEM - Element initiation completed"
+                + "\n"
+                + "\nSystem Initiated. Enter 'd' to enter debug mode, Enter 'q' to quit.");
         
         while(menu.equalsIgnoreCase("q") == false){
             menu = scanner.next();

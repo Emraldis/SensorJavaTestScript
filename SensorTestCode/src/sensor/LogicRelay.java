@@ -34,7 +34,7 @@ public class LogicRelay {
             tempRead = new Scanner (new FileInputStream(tempLogFile));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(LogicRelay.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("/nCritical Error: temperature probe data file not found");
+            System.out.println("\nCritical Error: temperature probe data file not found");
         }
         pinOne.low();
         pinTwo.low();
