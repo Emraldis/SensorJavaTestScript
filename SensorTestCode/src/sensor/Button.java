@@ -23,7 +23,7 @@ import com.pi4j.io.gpio.impl.PinImpl;
  */
 public class Button {
     
-    public Button(SystemController sysControl, GpioPinDigitalInput buttonPin, LogicRelay logicGate, LedIndicator led, MuxControl mux, int buttonID){
+    public Button(SystemController sysControl, GpioPinDigitalInput buttonPin, LogicRelay logicGate, LedIndicator led, MuxControl mux, int buttonID, String tempLogFile){
         buttonPin.addListener(new GpioPinListenerDigital(){
 
             @Override
@@ -32,7 +32,7 @@ public class Button {
                 if(sysControl.buttonControl != false){
                     System.out.println("\nButton Lockdown Started");
                     sysControl.buttonControl = false;
-                    logicGate.incubate(sysControl.incubateTime,led);
+                    logicGate.incubate(sysControl.incubateTime,led,tempLogFile);
                     
                     try {
                         led.blink(sysControl.incubateTime, 1000, 1000);

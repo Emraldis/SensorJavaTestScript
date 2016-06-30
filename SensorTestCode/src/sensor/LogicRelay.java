@@ -28,26 +28,26 @@ public class LogicRelay {
     GpioPinDigitalOutput pinOne;
     GpioPinDigitalOutput pinTwo;
     SystemController sysData;
-    public LogicRelay (GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, String tempLogFile, SystemController sysData) {
+    public LogicRelay (GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, SystemController sysData) {
         pinOne = outputOne;
         pinTwo = outputTwo;
-        try {
-            tempRead = new Scanner (new FileInputStream(tempLogFile));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(LogicRelay.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("\nCritical Error: temperature probe data file not found");
-        }
         pinOne.low();
         pinTwo.low();
         this.sysData = sysData;
     }
-    public void incubate (int time, LedIndicator led){
+    public void incubate (int time, LedIndicator led, String tempLogFile){
         int i = 0;
         long temp = 0;
         StringTokenizer strTok;
         String input;
         String tempString = " ";
         while(i < time){
+            try {
+                tempRead = new Scanner (new FileInputStream(tempLogFile));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(LogicRelay.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("\nCritical Error: temperature probe data file not found");
+            }
             while(tempRead.hasNextLine()){
                 input = tempRead.nextLine();
                 strTok = new StringTokenizer(input," ");

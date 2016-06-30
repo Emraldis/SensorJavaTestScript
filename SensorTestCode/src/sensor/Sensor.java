@@ -79,17 +79,17 @@ public class Sensor {
         LedIndicator ledThree = new LedIndicator(ledThreePin);
         LedIndicator ledFour = new LedIndicator(ledFourPin);
         //Creating logic relay control classes
-        LogicRelay logicOne = new LogicRelay(LogicOneAPin,LogicOneBPin,tempLogFileOne,sysControl);
-        LogicRelay logicTwo = new LogicRelay(LogicTwoAPin,LogicTwoBPin,tempLogFileTwo,sysControl);
-        LogicRelay logicThree = new LogicRelay(LogicThreeAPin,LogicThreeBPin,tempLogFileThree,sysControl);
-        LogicRelay logicFour = new LogicRelay(LogicFourAPin,LogicFourBPin,tempLogFileFour,sysControl);
+        LogicRelay logicOne = new LogicRelay(LogicOneAPin,LogicOneBPin,sysControl);
+        LogicRelay logicTwo = new LogicRelay(LogicTwoAPin,LogicTwoBPin,sysControl);
+        LogicRelay logicThree = new LogicRelay(LogicThreeAPin,LogicThreeBPin,sysControl);
+        LogicRelay logicFour = new LogicRelay(LogicFourAPin,LogicFourBPin,sysControl);
         //Creating Mux Controller class
         MuxControl muxController = new MuxControl(MuxOnePin,MuxTwoPin,MuxThreePin,MuxFourPin,sysControl);
         //Creating Button classes
-        Button buttonOne = new Button(sysControl,buttonOnePin,logicOne,ledOne,muxController,1);
-        Button buttonTwo = new Button(sysControl,buttonTwoPin,logicTwo,ledTwo,muxController,2);
-        Button buttonThree = new Button(sysControl,buttonThreePin,logicThree,ledThree,muxController,3);
-        Button buttonFour = new Button(sysControl,buttonFourPin,logicFour,ledFour,muxController,4);
+        Button buttonOne = new Button(sysControl,buttonOnePin,logicOne,ledOne,muxController,1,tempLogFileOne);
+        Button buttonTwo = new Button(sysControl,buttonTwoPin,logicTwo,ledTwo,muxController,2,tempLogFileTwo);
+        Button buttonThree = new Button(sysControl,buttonThreePin,logicThree,ledThree,muxController,3,tempLogFileThree);
+        Button buttonFour = new Button(sysControl,buttonFourPin,logicFour,ledFour,muxController,4,tempLogFileFour);
         
         System.out.println("\nSYSTEM - Element initiation completed"
                 + "\n"
