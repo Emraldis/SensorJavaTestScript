@@ -65,10 +65,10 @@ public class LogicRelay {
             System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
             led.toggle();
             i = i + 100;
-            if((tempRead.nextLong() / 1000) < 33.00){
+            if(temp < 33.00){
                 pinOne.high();
                 pinTwo.low();
-            }else if((tempRead.nextLong() / 1000) > 46.00){
+            }else if(temp > 46.00){
                 pinOne.low();
                 pinTwo.high();
             }
