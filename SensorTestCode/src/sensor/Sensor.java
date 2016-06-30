@@ -48,20 +48,20 @@ public class Sensor {
         sysControl.lowerThresholdTemp = 33;
         sysControl.systemOutput = true;
         //Button Pin setups in WiringPi GPIO Pinout format
-        final GpioPinDigitalInput buttonOnePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_15, PinPullResistance.PULL_DOWN);
+        final GpioPinDigitalInput buttonOnePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_08, PinPullResistance.PULL_DOWN);
         final GpioPinDigitalInput buttonTwoPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, PinPullResistance.PULL_DOWN);
         final GpioPinDigitalInput buttonThreePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, PinPullResistance.PULL_DOWN);
         final GpioPinDigitalInput buttonFourPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_21, PinPullResistance.PULL_DOWN);
         //LED Pin setups in WiringPi GPIO Pinout format
-        final GpioPinDigitalOutput ledOnePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "LEDOne", PinState.LOW);
-        final GpioPinDigitalOutput ledTwoPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "LEDTwo", PinState.LOW);
+        final GpioPinDigitalOutput ledOnePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, "LEDOne", PinState.LOW);
+        final GpioPinDigitalOutput ledTwoPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "LEDTwo", PinState.LOW);
         final GpioPinDigitalOutput ledThreePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "LEDThree", PinState.LOW);
         final GpioPinDigitalOutput ledFourPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_22, "LEDFour", PinState.LOW);
         //Logic gate Pin setups in WiringPi GPIO Pinout format
-        final GpioPinDigitalOutput LogicOneAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_08, "LogicOneA", PinState.LOW);
-        final GpioPinDigitalOutput LogicOneBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, "LogicOneB", PinState.LOW);
-        final GpioPinDigitalOutput LogicTwoAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "LogicTwoA", PinState.LOW);
-        final GpioPinDigitalOutput LogicTwoBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "LogicTwoB", PinState.LOW);
+        final GpioPinDigitalOutput LogicOneAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "LogicOneA", PinState.LOW);
+        final GpioPinDigitalOutput LogicOneBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "LogicOneB", PinState.LOW);
+        final GpioPinDigitalOutput LogicTwoAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "LogicTwoA", PinState.LOW);
+        final GpioPinDigitalOutput LogicTwoBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "LogicTwoB", PinState.LOW);
         final GpioPinDigitalOutput LogicThreeAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13, "LogicThreeA", PinState.LOW);
         final GpioPinDigitalOutput LogicThreeBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_14, "LogicThreeB", PinState.LOW);
         final GpioPinDigitalOutput LogicFourAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, "LogicFourA", PinState.LOW);

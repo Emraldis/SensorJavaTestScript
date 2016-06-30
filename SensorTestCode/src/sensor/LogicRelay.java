@@ -42,7 +42,7 @@ public class LogicRelay {
         StringTokenizer strTok;
         String input;
         String tempString = " ";
-        while((i < time) && sysData.buttonControl){
+        while((i < time) && (!sysData.buttonControl)){
             try {
                 tempRead = new Scanner (new FileInputStream(tempLogFile));
             } catch (FileNotFoundException ex) {
