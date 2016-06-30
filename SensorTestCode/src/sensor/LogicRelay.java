@@ -67,21 +67,20 @@ public class LogicRelay {
                     System.out.println("\nError Reading Temperature");
                 }
             }
-            if(sysData.systemOutput){
-                System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
-            }
             led.toggle();
             i = i + 100;
             pinOne.low();
             pinTwo.low();
             if(temp < sysData.lowerThresholdTemp){
                 if(sysData.systemOutput){
+                    System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
                     System.out.println("\nSYSTEM - Temperature too low, adjusting.");
                 }
                 pinOne.high();
                 pinTwo.low();
             }else if(temp > sysData.upperThresholdTemp){
                 if(sysData.systemOutput){
+                    System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
                     System.out.println("\nSYSTEM - Temperature too high, adjusting.");
                 }
                 pinOne.low();

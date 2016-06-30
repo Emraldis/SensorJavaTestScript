@@ -64,6 +64,8 @@ public class MuxControl {
             lockout.muxControl = false;
             System.out.println("SYSTEM - MUX set, locking down mux for 2 minuites");
             Thread.sleep(lockout.muxLockoutTime);
+            lockout.muxControl = true;
+            System.out.println("SYSTEM - MUX Lockdown Dropped");
         }
     }
 }
