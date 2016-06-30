@@ -61,7 +61,6 @@ public class LogicRelay {
                     while(strTok.hasMoreTokens()){
                         tempString = strTok.nextToken();
                     }
-                    //System.out.println("\n" + tempString);
                     tempLong = Long.parseLong(tempString);
                     temp = tempLong/1000;
                 }else{
@@ -88,12 +87,13 @@ public class LogicRelay {
                 pinOne.low();
                 pinTwo.high();
             }
-            pinOne.low();
-            pinTwo.low();
             if(sysData.systemOutput){
                 System.out.println("\nSYSTEM - Incubation time remaining: " + ((time - i)/100));
             }
         }
+        System.out.println("\nSYSTEM - Incubation completed, setting MUX");
+        pinOne.low();
+        pinTwo.low();
         led.ledController.high();
     }
     
