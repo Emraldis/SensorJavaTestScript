@@ -39,10 +39,10 @@ public class MuxControl {
         pinB.low();
         pinC.low();
         pinD.low();
-        pinE.low();
-        pinF.low();
-        pinG.low();
-        pinH.low();
+        //pinE.low();
+        //pinF.low();
+        //pinG.low();
+        //pinH.low();
         lockout = sysControl;
     }
     public void setMux (int setting) throws InterruptedException{
