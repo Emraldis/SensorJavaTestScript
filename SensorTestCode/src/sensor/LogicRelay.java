@@ -63,6 +63,8 @@ public class LogicRelay {
                     System.out.println("\n" + tempString);
                     temp = Long.parseLong(tempString);
                     temp = temp/1000;
+                }else{
+                    System.out.println("\nError Reading Temperature");
                 }
             }
             System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
