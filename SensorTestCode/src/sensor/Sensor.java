@@ -46,6 +46,7 @@ public class Sensor {
         sysControl.muxLockoutTime = 10000;
         sysControl.upperThresholdTemp = 46;
         sysControl.lowerThresholdTemp = 33;
+        sysControl.systemOutput = true;
         //Button Pin setups in WiringPi GPIO Pinout format
         final GpioPinDigitalInput buttonOnePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_15, PinPullResistance.PULL_DOWN);
         final GpioPinDigitalInput buttonTwoPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, PinPullResistance.PULL_DOWN);
@@ -97,7 +98,9 @@ public class Sensor {
         
         while(menu.equalsIgnoreCase("q") == false){
             menu = scanner.next();
+            sysControl.systemOutput = true;
             while(menu.equalsIgnoreCase("d") == true){
+                sysControl.systemOutput = false;
                 System.out.println("\nDebug Menu:"
                         + "\n1) Change upper threshold temperature"
                         + "\n2) Change lower threshold temperature"
@@ -128,6 +131,7 @@ public class Sensor {
                 }else if(menu.equals("5") == true){
                     System.out.println("\nExiting debug menu");
                     menu = " ";
+                    sysControl.systemOutput = true;
                 }else{
                     System.out.println("\nInvalid menu option, please try again.\n");
                     menu = "d";

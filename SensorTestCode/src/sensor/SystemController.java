@@ -16,4 +16,5 @@ public class SystemController {
     int muxLockoutTime;
     float lowerThresholdTemp;
     float upperThresholdTemp;
+    boolean systemOutput;
 }
