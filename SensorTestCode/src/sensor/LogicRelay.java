@@ -61,7 +61,7 @@ public class LogicRelay {
                     while(strTok.hasMoreTokens()){
                         tempString = strTok.nextToken();
                     }
-                    System.out.println("\n" + tempString);
+                    //System.out.println("\n" + tempString);
                     tempLong = Long.parseLong(tempString);
                     temp = tempLong/1000;
                 }else{
