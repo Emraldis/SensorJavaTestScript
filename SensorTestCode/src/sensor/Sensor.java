@@ -67,9 +67,9 @@ public class Sensor {
         final GpioPinDigitalOutput LogicFourAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, "LogicFourA", PinState.LOW);
         final GpioPinDigitalOutput LogicFourBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, "LogicFourB", PinState.LOW);
         //Mux setups in WiringPi GPIO Pinout format
-        final GpioPinDigitalOutput MuxOnePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MUXPinOne", PinState.LOW);
-        final GpioPinDigitalOutput MuxTwoPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, "MUXPinTwo", PinState.LOW);
-        final GpioPinDigitalOutput MuxThreePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "MUXPinThree", PinState.LOW);
+        final GpioPinDigitalOutput MuxSYNC = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MUXPinOne", PinState.LOW);
+        final GpioPinDigitalOutput MuxSCLK = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, "MUXPinTwo", PinState.LOW);
+        final GpioPinDigitalOutput MuxDIN = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "MUXPinThree", PinState.LOW);
         final GpioPinDigitalOutput MuxFourPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, "MUXPinFour", PinState.LOW);
         
         System.out.println("\nSYSTEM - Pin setup Completed");
@@ -85,7 +85,7 @@ public class Sensor {
         LogicRelay logicThree = new LogicRelay(LogicThreeAPin,LogicThreeBPin,sysControl);
         LogicRelay logicFour = new LogicRelay(LogicFourAPin,LogicFourBPin,sysControl);
         //Creating Mux Controller class
-        MuxControl muxController = new MuxControl(MuxOnePin,MuxTwoPin,MuxThreePin,MuxFourPin,sysControl);
+        MuxControl muxController = new MuxControl(MuxSYNC,MuxSCLK,MuxDIN,sysControl);
         //Creating Button classes
         Button buttonOne = new Button(sysControl,buttonOnePin,logicOne,ledOne,muxController,1,tempLogFileOne);
         Button buttonTwo = new Button(sysControl,buttonTwoPin,logicTwo,ledTwo,muxController,2,tempLogFileTwo);
