@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sensor;
+package GPIO_Manager;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -22,10 +22,13 @@ import com.pi4j.io.gpio.impl.PinImpl;
  * @author Alfie Feltham
  */
 public class Button {
-    
+    /*
+    This button class is easily repeatable, just add "Button BUTTON_NAME = new Button(sysControl,APPROPRIATE_PIN_OBJECT,APPROPRIATE_LOGIC_RELAY_OBJECT,APPROPRIATE_LED_CONTROLLER_OBJECT,muxController,BUTTON_NUMBER,APPROPRIATE_THERMOMETER_FILENAME); to the main function in GPIO_Manager.java"
+    */
     public Button(SystemController sysControl, GpioPinDigitalInput buttonPin, LogicRelay logicGate, LedIndicator led, MuxControl mux, int buttonID, String tempLogFile){
         buttonPin.addListener(new GpioPinListenerDigital(){
-
+            
+            /*-----------------------|Creating Button Action Listener, will activate on a button press|-----------------------*/
             @Override
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
                 System.out.println("\nButton " + buttonID + " pushed");
@@ -33,12 +36,6 @@ public class Button {
                     System.out.println("\nButton Lockdown Started");
                     sysControl.buttonControl = false;
                     logicGate.incubate(sysControl.incubateTime,led,tempLogFile);
-                    /*
-                    try {
-                        led.blink(sysControl.incubateTime, 1000, 1000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
-                    }*/
                     sysControl.buttonControl = true;
                     try {
                         mux.setMux(buttonID);
@@ -46,8 +43,6 @@ public class Button {
                         Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     System.out.println("\nButton Lockdown dropped");
-                }else{
-                    //System.out.println("\nButtons Currently under Lockdown");
                 }
             }
             

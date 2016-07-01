@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sensor;
+package GPIO_Manager;
 
 /**
  *
  * @author Alfie Feltham
  */
+/*-----------------------|Basic Global System Variables|-----------------------*/
 public class SystemController {
     boolean buttonControl;
     boolean muxControl;

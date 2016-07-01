@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sensor;
+package GPIO_Manager;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -22,10 +22,12 @@ import java.util.logging.Logger;
  */
 public class LedIndicator {
     GpioPinDigitalOutput ledController;
+    /*-----------------------|Basic Constructor|-----------------------*/
     public LedIndicator (GpioPinDigitalOutput ledControl){
         ledController = ledControl;
         ledController.low();
     }
+    /*-----------------------|CURRENTLY UNUSED, Blinks light for a set time, with alterable on and off periods|-----------------------*/
     public void blink (int duration, int onTime, int offTime) throws InterruptedException{
         int i = 0;
         while(i <duration){
@@ -36,6 +38,7 @@ public class LedIndicator {
             i = (i + onTime + offTime);
         }
     }
+    /*-----------------------|Toggles the Light|-----------------------*/
     public void toggle(){
         ledController.toggle();
     }

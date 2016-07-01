@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sensor;
+package GPIO_Manager;
 import java.util.*;
 import java.io.*;
 import com.pi4j.io.gpio.GpioController;
@@ -28,6 +28,7 @@ public class LogicRelay {
     GpioPinDigitalOutput pinOne;
     GpioPinDigitalOutput pinTwo;
     SystemController sysData;
+    /*-----------------------|Basic Constructor|-----------------------*/
     public LogicRelay (GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, SystemController sysData) {
         pinOne = outputOne;
         pinTwo = outputTwo;
@@ -35,6 +36,7 @@ public class LogicRelay {
         pinTwo.low();
         this.sysData = sysData;
     }
+    /*-----------------------|Incubation Function|-----------------------*/
     public void incubate (int time, LedIndicator led, String tempLogFile){
         int i = 0;
         long tempLong = 0;
@@ -43,6 +45,7 @@ public class LogicRelay {
         String input;
         String tempString = " ";
         while((i < time) && (!sysData.buttonControl)){
+        /*-----------------------|Code for getting temp data from file|-----------------------*/
             try {
                 tempRead = new Scanner (new FileInputStream(tempLogFile));
             } catch (FileNotFoundException ex) {
@@ -71,6 +74,7 @@ public class LogicRelay {
             i = i + 100;
             pinOne.low();
             pinTwo.low();
+            /*-----------------------|Smart Temp Feedback Code|-----------------------*/
             if(temp < sysData.lowerThresholdTemp){
                 if(sysData.systemOutput){
                     System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");

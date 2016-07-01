@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sensor;
+package GPIO_Manager;
 import java.util.*;
 import java.io.*;
 import com.pi4j.io.gpio.*;
@@ -24,16 +24,20 @@ import com.pi4j.io.gpio.impl.PinImpl;
  *
  * @author Alfie Feltham
  */
-public class Sensor {
+public class GPIO_Manager {
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        /*-----------------------|Getting Filenames for temperature logging system|-----------------------*/
+        /*
+        To add a new thermometer filename, get its serial number and put that in the TemSensorSerial file (in a new line), and add another tempLogFile variable below, in the same manner.
+        */
         Scanner serialScanner = null;
         try {
             serialScanner = new Scanner (new FileInputStream("TempSensorSerial"));
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Sensor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
         String menu = " ";
         Scanner scanner = new Scanner(System.in);
@@ -48,9 +52,9 @@ public class Sensor {
             tempLogFileFour = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
         }
         
-        //Setting up GPIO controller
+        /*-----------------------|Setting up GPIO Controller|-----------------------*/
         final GpioController gpio = GpioFactory.getInstance();
-        //"global" button and mux control variables, as well as incubation time, mux lockout time, and the threshold temperatures, all stored in this object
+        /*-----------------------|"global" button and mux control variables, as well as incubation time, mux lockout time, and the threshold temperatures, all stored in this object|-----------------------*/
         SystemController sysControl = new SystemController();
         sysControl.buttonControl = true;
         sysControl.muxControl = true;
@@ -59,17 +63,19 @@ public class Sensor {
         sysControl.upperThresholdTemp = 46;
         sysControl.lowerThresholdTemp = 33;
         sysControl.systemOutput = true;
-        //Button Pin setups in WiringPi GPIO Pinout format
+        
+        /*-----------------------|ALL pins are declared below. Adding new ones can be done using the same method as seen below|-----------------------*/
+        /*-----------------------|Button Pin setups in WiringPi GPIO Pinout format|-----------------------*/
         final GpioPinDigitalInput buttonOnePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_08, PinPullResistance.PULL_DOWN);
         final GpioPinDigitalInput buttonTwoPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, PinPullResistance.PULL_DOWN);
         final GpioPinDigitalInput buttonThreePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, PinPullResistance.PULL_DOWN);
         final GpioPinDigitalInput buttonFourPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_21, PinPullResistance.PULL_DOWN);
-        //LED Pin setups in WiringPi GPIO Pinout format
+        /*-----------------------|LED Pin setups in WiringPi GPIO Pinout format|-----------------------*/
         final GpioPinDigitalOutput ledOnePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, "LEDOne", PinState.LOW);
         final GpioPinDigitalOutput ledTwoPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "LEDTwo", PinState.LOW);
         final GpioPinDigitalOutput ledThreePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "LEDThree", PinState.LOW);
         final GpioPinDigitalOutput ledFourPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_22, "LEDFour", PinState.LOW);
-        //Logic gate Pin setups in WiringPi GPIO Pinout format
+        /*-----------------------|Logic gate Pin setups in WiringPi GPIO Pinout format|-----------------------*/
         final GpioPinDigitalOutput LogicOneAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "LogicOneA", PinState.LOW);
         final GpioPinDigitalOutput LogicOneBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "LogicOneB", PinState.LOW);
         final GpioPinDigitalOutput LogicTwoAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "LogicTwoA", PinState.LOW);
@@ -78,31 +84,35 @@ public class Sensor {
         final GpioPinDigitalOutput LogicThreeBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_14, "LogicThreeB", PinState.LOW);
         final GpioPinDigitalOutput LogicFourAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, "LogicFourA", PinState.LOW);
         final GpioPinDigitalOutput LogicFourBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, "LogicFourB", PinState.LOW);
-        //Mux setups in WiringPi GPIO Pinout format
+        /*-----------------------|Mux setups in WiringPi GPIO Pinout format|-----------------------*/
         final GpioPinDigitalOutput MuxSYNC = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MUXSYNC", PinState.HIGH);
         final GpioPinDigitalOutput MuxSCLK = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, "MUXSCLK", PinState.HIGH);
         final GpioPinDigitalOutput MuxDIN = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "MUXDIN", PinState.HIGH);
         
         System.out.println("\nSYSTEM - Pin setup Completed");
         
-        //Creating LED indicator classes
+        /*-----------------------|Creating LED indicator classes|-----------------------*/
         LedIndicator ledOne = new LedIndicator(ledOnePin);
         LedIndicator ledTwo = new LedIndicator(ledTwoPin);
         LedIndicator ledThree = new LedIndicator(ledThreePin);
         LedIndicator ledFour = new LedIndicator(ledFourPin);
-        //Creating logic relay control classes
+        /*-----------------------|Creating logic relay control classes|-----------------------*/
         LogicRelay logicOne = new LogicRelay(LogicOneAPin,LogicOneBPin,sysControl);
         LogicRelay logicTwo = new LogicRelay(LogicTwoAPin,LogicTwoBPin,sysControl);
         LogicRelay logicThree = new LogicRelay(LogicThreeAPin,LogicThreeBPin,sysControl);
         LogicRelay logicFour = new LogicRelay(LogicFourAPin,LogicFourBPin,sysControl);
-        //Creating Mux Controller class
+        /*-----------------------|Creating Mux Controller class|-----------------------*/
         MuxControl muxController = new MuxControl(MuxSYNC,MuxSCLK,MuxDIN,sysControl);
-        //Creating Button classes
+        /*-----------------------|Creating Button classes|-----------------------*/
         Button buttonOne = new Button(sysControl,buttonOnePin,logicOne,ledOne,muxController,1,tempLogFileOne);
         Button buttonTwo = new Button(sysControl,buttonTwoPin,logicTwo,ledTwo,muxController,2,tempLogFileTwo);
         Button buttonThree = new Button(sysControl,buttonThreePin,logicThree,ledThree,muxController,3,tempLogFileThree);
         Button buttonFour = new Button(sysControl,buttonFourPin,logicFour,ledFour,muxController,4,tempLogFileFour);
         
+        /*-----------------------|Beginning program loop and Debug menu loop|-----------------------*/
+        /*
+        This is a basic text menu. A value must be entered for it to do something (IE press "d" and then "enter")
+        */
         System.out.println("\nSYSTEM - Element initiation completed"
                 + "\n"
                 + "\nSystem Initiated. Enter 'd' to enter debug mode, Enter 'q' to quit.");

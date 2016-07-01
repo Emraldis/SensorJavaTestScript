@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sensor;
+package GPIO_Manager;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -25,6 +25,7 @@ public class MuxControl {
     GpioPinDigitalOutput SCLK;
     GpioPinDigitalOutput DIN;
     SystemController lockout;
+    /*-----------------------|Basic Constructor|-----------------------*/
     public MuxControl (GpioPinDigitalOutput SYNC, GpioPinDigitalOutput SCLK, GpioPinDigitalOutput DIN, SystemController sysControl){
         this.SYNC = SYNC;
         this.SCLK = SCLK;
@@ -34,6 +35,21 @@ public class MuxControl {
         this.DIN.high();
         lockout = sysControl;
     }
+    /*-----------------------|Sets the value of the mux based on Button ID (will write out the binary equivalent of the buttons ID Number)|-----------------------*/
+    /*
+    To add more button options, simply add another case with the button option, and then add the binary equivalent in the section below it. For Example: (example using 5)
+                case 5:
+                    this.writeBit(0);
+                    this.writeBit(0);
+                    this.writeBit(0);
+                    this.writeBit(0);
+                    this.writeBit(0);
+                    this.writeBit(0);
+                    this.writeBit(1);
+                    this.writeBit(0);
+                    this.writeBit(1);
+                    break;
+    */
     public void setMux (int setting) throws InterruptedException{
         SYNC.high();
         SCLK.high();
@@ -101,12 +117,14 @@ public class MuxControl {
             SCLK.high();
             DIN.high();
             lockout.muxControl = false;
+            /*-----------------------|Locks out MUX for the set Mux Lockout time|-----------------------*/
             System.out.println("SYSTEM - MUX set, locking down mux for 2 minuites");
             Thread.sleep(lockout.muxLockoutTime);
             lockout.muxControl = true;
             System.out.println("SYSTEM - MUX Lockdown Dropped");
         }
     }
+    /*-----------------------|Writes a single bit out to the steam|-----------------------*/
     public void writeBit(int bit) throws InterruptedException{
         if(bit == 1){
             DIN.high();
