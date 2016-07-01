@@ -67,10 +67,9 @@ public class Sensor {
         final GpioPinDigitalOutput LogicFourAPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_23, "LogicFourA", PinState.LOW);
         final GpioPinDigitalOutput LogicFourBPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_24, "LogicFourB", PinState.LOW);
         //Mux setups in WiringPi GPIO Pinout format
-        final GpioPinDigitalOutput MuxSYNC = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MUXPinOne", PinState.LOW);
-        final GpioPinDigitalOutput MuxSCLK = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, "MUXPinTwo", PinState.LOW);
-        final GpioPinDigitalOutput MuxDIN = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "MUXPinThree", PinState.LOW);
-        final GpioPinDigitalOutput MuxFourPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_29, "MUXPinFour", PinState.LOW);
+        final GpioPinDigitalOutput MuxSYNC = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MUXPinOne", PinState.HIGH);
+        final GpioPinDigitalOutput MuxSCLK = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, "MUXPinTwo", PinState.HIGH);
+        final GpioPinDigitalOutput MuxDIN = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "MUXPinThree", PinState.HIGH);
         
         System.out.println("\nSYSTEM - Pin setup Completed");
         

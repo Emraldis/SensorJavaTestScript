@@ -27,10 +27,10 @@ public class MuxControl {
     SystemController lockout;
     public MuxControl (GpioPinDigitalOutput SYNC, GpioPinDigitalOutput SCLK, GpioPinDigitalOutput DIN, SystemController sysControl){
         this.SYNC = SYNC;
-        SCLK = SCLK;
+        this.SCLK = SCLK;
         this.DIN = DIN;
         this.SYNC.low();
-        SCLK.low();
+        this.SCLK.low();
         this.DIN.low();
         lockout = sysControl;
     }
