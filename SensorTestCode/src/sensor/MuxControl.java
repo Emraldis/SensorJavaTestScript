@@ -103,6 +103,9 @@ public class MuxControl {
             lockout.muxControl = true;
             System.out.println("SYSTEM - MUX Lockdown Dropped");
         }
+        SYNC.high();
+        SCLK.high();
+        DIN.high();
     }
     public void writeBit(int bit) throws InterruptedException{
         if(bit == 1){
