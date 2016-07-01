@@ -140,14 +140,14 @@ public class GPIO_Manager {
                     System.out.println("\nNew Lower threshold is " + sysControl.lowerThresholdTemp);
                     menu = "d";
                 }else if(menu.equals("3") == true){
-                    System.out.println("\nPlease enter a new incubation time\n");
+                    System.out.println("\nPlease enter a new incubation time in miliseconds\n");
                     sysControl.incubateTime = scanner.nextInt();
-                    System.out.println("\nNew Incubate time is " + sysControl.incubateTime);
+                    System.out.println("\nNew Incubate time is " + (sysControl.incubateTime) / 100);
                     menu = "d";
                 }else if(menu.equals("4") == true){
-                    System.out.println("\nPlease enter a new Mux lockout time\n");
+                    System.out.println("\nPlease enter a new Mux lockout time in miliseconds\n");
                     sysControl.muxLockoutTime = scanner.nextInt();
-                    System.out.println("\nNew Mux Lockout time is " + sysControl.muxLockoutTime);
+                    System.out.println("\nNew Mux Lockout time is " + (sysControl.muxLockoutTime) / 100);
                     menu = "d";
                 }else if(menu.equals("5") == true){
                     System.out.println("\nExiting debug menu");

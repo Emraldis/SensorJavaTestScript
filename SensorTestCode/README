@@ -1,0 +1,35 @@
+PREREQUESITE SETUP:
+	1. Make sure you have the latest pi4j library for the raspberry pi. You can get this by following the instructions on this page: http://pi4j.com/install.html
+	For a quick and dirty way to install it, run the following command on the console:
+	
+	curl -s get.pi4j.com | sudo bash
+	
+	2. Install the Temperature sensor using modprobe. To do this, you may need to update the operating system of the pi, (only do this if the following steps do not work) instructions for updating the OS can be found here: http://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/temperature/#exampleCode
+		Quick and dirty install for the temperature sensors:
+		-Plug sensors into the pi in parallel (they all need to be connected to the same power and ground pins, as well as be connected to the same GPIO pin on the pi. They can all share a resistor as well. The pin I used was pin 26 (using standard pin numbering)
+		-Add the following line to /boot/config.txt (may need a super-user command to edit) : dtoverlay=w1-gpio,gpiopin=7
+		-gpiopin=7 can be replaced with whichver pin you end up using.
+		-Reboot the pi, and cd to the folder /sys/bus/w1/devices
+		-within this folder you should see a file called w1_bus_master1 and some other files (four hopefully at the moment, one for each temperature sensor, unless you've added more), each of these files should look something like: 28-000007f9caa2
+		-Copy these serial numbers into the TempSensorSerial file (replace the serial numbers I have in there) in the order from the sensor for the first sample slot to the last.
+			-To find out which serial number belongs to which sensor just plug them in one at a time and check the folder to see which serial number file has been added
+			-To test and make sure the sensors are working this way, run "cat /sys/bus/w1/devices/SERIAL_NUMBER_GOES_HERE/w1_slave", it should print out a bunch of random characters, then a "YES", after which it will print a second line with more random characters, followed by a t= some number, this number divided by 1000 is the temperature.
+		You should now be able to compile and run the program.
+TO COMPILE:
+Run the command "make all" on the command line, or run the following commands in the listed order:
+
+	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/SystemController.java
+	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/LedIndicator.java
+	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/LogicRelay.java
+	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/MuxControl.java
+	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/Button.java
+	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/GPIO_Manager.java
+	
+TO RUN:
+If it is not launching on startup, use the command listed below to launch the program:
+
+	sudo java -cp .:/opt/pi4j/lib/pi4j-core.jar GPIO_Manager/GPIO_Manager
+
+	quick and dirty launch:
+	
+	run "make run" on the command line.
