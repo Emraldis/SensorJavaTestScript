@@ -29,9 +29,9 @@ public class MuxControl {
         this.SYNC = SYNC;
         this.SCLK = SCLK;
         this.DIN = DIN;
-        this.SYNC.low();
-        this.SCLK.low();
-        this.DIN.low();
+        this.SYNC.high();
+        this.SCLK.high();
+        this.DIN.high();
         lockout = sysControl;
     }
     public void setMux (int setting) throws InterruptedException{
@@ -97,15 +97,15 @@ public class MuxControl {
                     this.writeBit(0);
                     this.writeBit(0);
             }
+            SYNC.high();
+            SCLK.high();
+            DIN.high();
             lockout.muxControl = false;
             System.out.println("SYSTEM - MUX set, locking down mux for 2 minuites");
             Thread.sleep(lockout.muxLockoutTime);
             lockout.muxControl = true;
             System.out.println("SYSTEM - MUX Lockdown Dropped");
         }
-        SYNC.high();
-        SCLK.high();
-        DIN.high();
     }
     public void writeBit(int bit) throws InterruptedException{
         if(bit == 1){
