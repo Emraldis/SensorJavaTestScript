@@ -5,6 +5,7 @@
  */
 package sensor;
 import java.util.*;
+import java.io.*;
 import com.pi4j.io.gpio.*;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -24,17 +25,28 @@ import com.pi4j.io.gpio.impl.PinImpl;
  * @author Alfie Feltham
  */
 public class Sensor {
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Scanner serialScanner = null;
+        try {
+            serialScanner = new Scanner (new FileInputStream("TempSensorSerial"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Sensor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String menu = " ";
         Scanner scanner = new Scanner(System.in);
-        String tempLogFileOne = "/sys/bus/w1/devices/28-000007f9caa2/w1_slave";
-        String tempLogFileTwo = "/sys/bus/w1/devices/28-000007fa0cdf/w1_slave";
-        String tempLogFileThree = "/sys/bus/w1/devices/28-000007fa462b/w1_slave";
-        String tempLogFileFour = "/sys/bus/w1/devices/28-000007fa67e6/w1_slave";
+        String tempLogFileOne = " ";
+        String tempLogFileTwo = " ";
+        String tempLogFileThree = " ";
+        String tempLogFileFour = " ";
+        while(serialScanner.hasNextLine()){
+            tempLogFileOne = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
+            tempLogFileTwo = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
+            tempLogFileThree = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
+            tempLogFileFour = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
+        }
         
         //Setting up GPIO controller
         final GpioController gpio = GpioFactory.getInstance();
