@@ -107,10 +107,10 @@ public class Sensor {
                 + "\n"
                 + "\nSystem Initiated. Enter 'd' to enter debug mode, Enter 'q' to quit.");
         
-        while(menu.equalsIgnoreCase("q") == false){
+        while(!menu.equalsIgnoreCase("q")){
             menu = scanner.next();
             sysControl.systemOutput = true;
-            while(menu.equalsIgnoreCase("d") == true){
+            while((menu.equalsIgnoreCase("d")) && (!menu.equalsIgnoreCase("q"))){
                 sysControl.systemOutput = false;
                 System.out.println("\nDebug Menu:"
                         + "\n1) Change upper threshold temperature"

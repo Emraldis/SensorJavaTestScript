@@ -114,7 +114,7 @@ public class MuxControl {
             DIN.low();
         }
         SCLK.low();
-        Thread.sleep(1000);
+        Thread.sleep(2);
         SCLK.high();
         
     }
