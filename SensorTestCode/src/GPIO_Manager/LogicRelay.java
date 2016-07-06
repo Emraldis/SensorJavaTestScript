@@ -45,6 +45,7 @@ public class LogicRelay {
         StringTokenizer strTok;
         String input;
         String tempString = " ";
+        System.out.println("\nSYSTEM - Beginning Induction, " + (sysData.inductionTime / 100) + " seconds remaining.");
         while((i < (inductionTime + respondTime)) && (!sysData.buttonControl)){
         /*-----------------------|Code for getting temp data from file|-----------------------*/
             try {
@@ -75,7 +76,6 @@ public class LogicRelay {
             i = i + 100;
             pinOne.low();
             pinTwo.low();
-            System.out.println("\nSYSTEM - Beginning Induction, " + (sysData.inductionTime / 100) + " seconds remaining.");
             /*-----------------------|Smart Temp Feedback Code|-----------------------*/
             if(i<inductionTime){
             /*-----------------------|Beggining Induction|-----------------------*/
