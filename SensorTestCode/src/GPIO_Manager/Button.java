@@ -35,12 +35,6 @@ public class Button {
                     System.out.println("Button " + buttonID + " Pushed");
                     logicGate.incubate(sysControl.inductionTime,sysControl.respondTime,led,tempLogFile);
                     try {
-                        System.out.println("\nSYSTEM - Button " + buttonID + " activated, locking down buttons for " + (sysControl.muxLockoutTime / 100) + " seconds");
-                        Thread.sleep(sysControl.muxLockoutTime);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
                         mux.setMux(buttonID);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);

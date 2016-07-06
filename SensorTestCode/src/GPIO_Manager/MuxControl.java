@@ -118,7 +118,9 @@ public class MuxControl {
             DIN.high();
             lockout.muxControl = false;
             /*-----------------------|Locks out MUX for the set Mux Lockout time|-----------------------*/
-            System.out.println("SYSTEM - MUX set, locking down mux for 2 minuites");
+            System.out.println("SYSTEM - MUX set, locking down mux for "
+                    + (lockout.muxLockoutTime / 100)
+                    + " seconds");
             Thread.sleep(lockout.muxLockoutTime);
             lockout.muxControl = true;
             System.out.println("SYSTEM - MUX Lockdown Dropped");
