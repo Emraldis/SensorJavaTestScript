@@ -75,7 +75,7 @@ public class LogicRelay {
             i = i + 100;
             pinOne.low();
             pinTwo.low();
-            
+            System.out.println("\nSYSTEM - Beginning Induction, " + (sysData.inductionTime / 100) + " seconds remaining.");
             /*-----------------------|Smart Temp Feedback Code|-----------------------*/
             if(i<inductionTime){
             /*-----------------------|Beggining Induction|-----------------------*/

@@ -131,26 +131,31 @@ public class GPIO_Manager {
                         + "\n5) Exit debug menu");
                 menu = scanner.next();
                 if(menu.equals("1") == true){
-                    System.out.println("\nPlease enter new Upper threshold temperature\n");
+                    System.out.println("\nPlease enter new Induction Temperature threshold temperature\n");
                     sysControl.inductionTemp = scanner.nextFloat();
-                    System.out.println("\nNew Upper threshold is " + sysControl.inductionTemp);
+                    System.out.println("\nNew Induction Temperature threshold is " + sysControl.inductionTemp);
                     menu = "d";
                 }else if(menu.equals("2") == true){
-                    System.out.println("\nPlease enter new Lower threshold temperature\n");
+                    System.out.println("\nPlease enter new Respond Temperature threshold temperature\n");
                     sysControl.respondTemp = scanner.nextFloat();
-                    System.out.println("\nNew Lower threshold is " + sysControl.respondTemp);
+                    System.out.println("\nNew Respond Temperature threshold is " + sysControl.respondTemp);
                     menu = "d";
                 }else if(menu.equals("3") == true){
-                    System.out.println("\nPlease enter a new incubation time in miliseconds\n");
+                    System.out.println("\nPlease enter a new Induction time in miliseconds\n");
                     sysControl.inductionTime = scanner.nextInt();
-                    System.out.println("\nNew Incubate time is " + (sysControl.inductionTime / 100) + " Seconds");
+                    System.out.println("\nNew Induction time is " + (sysControl.inductionTime / 100) + " Seconds");
                     menu = "d";
                 }else if(menu.equals("4") == true){
+                    System.out.println("\nPlease enter a new Respond time in miliseconds\n");
+                    sysControl.respondTime = scanner.nextInt();
+                    System.out.println("\nNew Respond time is " + (sysControl.respondTime / 100) + " Seconds");
+                    menu = "d";
+                }else if(menu.equals("5") == true){
                     System.out.println("\nPlease enter a new Mux lockout time in miliseconds\n");
                     sysControl.muxLockoutTime = scanner.nextInt();
                     System.out.println("\nNew Mux Lockout time is " + (sysControl.muxLockoutTime / 100) + " Seconds");
                     menu = "d";
-                }else if(menu.equals("5") == true){
+                }else if(menu.equals("6") == true){
                     System.out.println("\nExiting debug menu");
                     menu = " ";
                     sysControl.systemOutput = true;
