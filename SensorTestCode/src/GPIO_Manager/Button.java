@@ -33,11 +33,6 @@ public class Button {
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
                 if(sysControl.buttonControl != false){
                     System.out.println("Button " + buttonID + " Pushed");
-                    try {
-                        sysControl.lockButtons();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                     logicGate.incubate(sysControl.inductionTime,sysControl.respondTime,led,tempLogFile);
                     try {
                         System.out.println("\nSYSTEM - Button " + buttonID + " activated, locking down buttons for " + (sysControl.muxLockoutTime / 100) + " seconds");

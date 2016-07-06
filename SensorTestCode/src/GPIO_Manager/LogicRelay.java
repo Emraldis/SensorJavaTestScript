@@ -53,8 +53,13 @@ public class LogicRelay {
             System.out.println("\nNO");
         }
         */
-        while((i < (inductionTime + respondTime)) && (!sysData.buttonControl)){
+        sysData.buttonControl = false;
+        while(i < (inductionTime + respondTime)){
         /*-----------------------|Code for getting temp data from file|-----------------------*/
+            if((i >= sysData.muxLockoutTime) && !sysData.buttonControl){
+                sysData.buttonControl = true;
+                System.out.println("\nButton Lockdown Dropped");
+            }
             try {
                 tempRead = new Scanner (new FileInputStream(tempLogFile));
             } catch (FileNotFoundException ex) {
