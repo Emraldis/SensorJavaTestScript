@@ -42,7 +42,7 @@ public class LogicRelay {
     }
     /*-----------------------|Incubation Function|-----------------------*/
 
-    public void incubate(int inductionTime, int respondTime, LedIndicator led, String tempLogFile) {
+    public void incubate(int inductionTime, int respondTime, LedIndicator led, String tempLogFile,int ID) {
         int i = 0;
         long tempLong = 0;
         float temp = 0;
@@ -116,7 +116,7 @@ public class LogicRelay {
                     }
                     if (sysData.systemOutput) {
                         if ((((inductionTime - i) / 100) % 10) == 0) {
-                            System.out.println("\nSYSTEM - Induction time remaining: " + ((inductionTime - i) / 100));
+                            System.out.println("\nSYSTEM - Sample " + ID + " Induction time remaining: " + ((inductionTime - i) / 100));
                         }
                     }
                 } else if ((i < (inductionTime + respondTime)) && (i > inductionTime)) {
@@ -138,7 +138,7 @@ public class LogicRelay {
                     }
                     if (sysData.systemOutput) {
                         if ((((inductionTime - i) / 100) % 10) == 0) {
-                            System.out.println("\nSYSTEM - Respond time remaining: " + ((respondTime - i + inductionTime) / 100));
+                            System.out.println("\nSYSTEM - Sample " + ID + " Respond time remaining: " + ((respondTime - i + inductionTime) / 100));
                         }
                     }
                 }
@@ -152,6 +152,8 @@ public class LogicRelay {
             pinTwo.low();
             led.ledController.high();
             inUse = false;
+        }else{
+            System.out.println("\nERROR - Incubation Already Started");
         }
     }
 
