@@ -46,12 +46,14 @@ public class LogicRelay {
         String input;
         String tempString = " ";
         System.out.println("\nSYSTEM - Beginning Induction, " + (sysData.inductionTime / 100) + " seconds remaining.");
+        /*
         if((i < (inductionTime + respondTime)) && (sysData.buttonControl)){
             System.out.println("\nYES");
         }else {
             System.out.println("\nNO");
         }
-        while((i < (inductionTime + respondTime)) && (!sysData.buttonControl)){
+        */
+        while((i < (inductionTime + respondTime)) && (sysData.buttonControl)){
         /*-----------------------|Code for getting temp data from file|-----------------------*/
             try {
                 tempRead = new Scanner (new FileInputStream(tempLogFile));
