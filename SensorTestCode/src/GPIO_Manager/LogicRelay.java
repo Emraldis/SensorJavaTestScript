@@ -31,6 +31,7 @@ public class LogicRelay {
     GpioPinDigitalOutput pinTwo;
     SystemController sysData;
     boolean inUse = false;
+    boolean triggered = false;
     /*-----------------------|Basic Constructor|-----------------------*/
 
     public LogicRelay(GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, SystemController sysData) {
@@ -50,7 +51,6 @@ public class LogicRelay {
         StringTokenizer strTok;
         String input;
         String tempString = " ";
-        System.out.println("\nSYSTEM - Beginning Induction, " + (sysData.inductionTime / 100) + " seconds remaining.");
         /*
          if((i < (inductionTime + respondTime)) && (sysData.buttonControl)){
          System.out.println("\nYES");
@@ -59,12 +59,14 @@ public class LogicRelay {
          }
          */
         if (!inUse) {
+            System.out.println("\nSYSTEM - Beginning Induction, " + (sysData.inductionTime / 100) + " seconds remaining.");
             sysData.buttonControl = false;
             inUse = true;
             while (i < (inductionTime + respondTime)) {
                 /*-----------------------|Code for getting temp data from file|-----------------------*/
-                if ((i >= sysData.muxLockoutTime) && !sysData.buttonControl) {
+                if ((i >= sysData.muxLockoutTime) && !sysData.buttonControl && !this.triggered) {
                     sysData.buttonControl = true;
+                    this.triggered = true;
                     System.out.println("\nButton Lockdown Dropped");
                 }
                 try {
@@ -152,6 +154,7 @@ public class LogicRelay {
             pinTwo.low();
             led.ledController.high();
             inUse = false;
+            this.triggered = false;
         }else{
             System.out.println("\nERROR - Incubation Already Started");
         }
