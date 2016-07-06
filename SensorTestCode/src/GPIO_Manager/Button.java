@@ -42,6 +42,7 @@ public class Button {
                         Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     sysControl.buttonControl = true;
+                    System.out.println("\nButton Lockdown Dropped");
                     try {
                         mux.setMux(buttonID);
                     } catch (InterruptedException ex) {
