@@ -32,6 +32,7 @@ public class Button {
             @Override
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
                 if(sysControl.buttonControl != false){
+                    System.out.println("Button " + buttonID + " Pushed");
                     logicGate.incubate(sysControl.inductionTime,sysControl.respondTime,led,tempLogFile);
                     sysControl.buttonControl = false;
                     try {
