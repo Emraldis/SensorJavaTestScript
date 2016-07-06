@@ -126,9 +126,10 @@ public class GPIO_Manager {
                 System.out.println("\nDebug Menu:"
                         + "\n1) Change upper threshold temperature"
                         + "\n2) Change lower threshold temperature"
-                        + "\n3) Change incubation time"
-                        + "\n4) change mux Lockout time"
-                        + "\n5) Exit debug menu");
+                        + "\n3) Change induction time"
+                        + "\n4) Change respond time"
+                        + "\n5) change mux Lockout time"
+                        + "\n6) Exit debug menu");
                 menu = scanner.next();
                 if(menu.equals("1") == true){
                     System.out.println("\nPlease enter new Induction Temperature threshold temperature\n");
