@@ -19,4 +19,13 @@ public class SystemController {
     float respondTemp;
     float inductionTemp;
     boolean systemOutput;
+    public void lockButtons() throws InterruptedException{
+        int i;
+        this.buttonControl = false;
+        for(i=0;i<this.muxLockoutTime;i++){
+            Thread.sleep(1);
+        }
+        this.buttonControl = true;
+        System.out.println("\nButton Lockdown Dropped");
+    }
 }

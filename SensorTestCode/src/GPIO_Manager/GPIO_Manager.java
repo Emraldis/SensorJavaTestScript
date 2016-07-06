@@ -124,11 +124,11 @@ public class GPIO_Manager {
             while((menu.equalsIgnoreCase("d")) && (!menu.equalsIgnoreCase("q"))){
                 sysControl.systemOutput = false;
                 System.out.println("\nDebug Menu:"
-                        + "\n1) Change induction threshold temperature"
-                        + "\n2) Change respond threshold temperature"
-                        + "\n3) Change induction time"
-                        + "\n4) Change respond time"
-                        + "\n5) change mux Lockout time"
+                        + "\n1) Change induction threshold temperature (Currently: " + sysControl.inductionTemp + " degrees)"
+                        + "\n2) Change respond threshold temperature (Currently: " + sysControl.respondTemp + " degrees)"
+                        + "\n3) Change induction time (Currently: " + (sysControl.inductionTime / 100) + " seconds)"
+                        + "\n4) Change respond time (Currently: " + (sysControl.respondTime / 100) + " seconds)"
+                        + "\n5) change mux Lockout time (Currently: " + (sysControl.muxLockoutTime / 100) + " seconds)"
                         + "\n6) Exit debug menu");
                 menu = scanner.next();
                 if(menu.equals("1") == true){
