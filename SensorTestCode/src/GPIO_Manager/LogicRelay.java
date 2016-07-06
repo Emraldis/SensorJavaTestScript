@@ -53,7 +53,7 @@ public class LogicRelay {
             System.out.println("\nNO");
         }
         */
-        while((i < (inductionTime + respondTime)) && (sysData.buttonControl)){
+        while((i < (inductionTime + respondTime)) && (!sysData.buttonControl)){
         /*-----------------------|Code for getting temp data from file|-----------------------*/
             try {
                 tempRead = new Scanner (new FileInputStream(tempLogFile));
