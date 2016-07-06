@@ -37,14 +37,15 @@ public class LogicRelay {
         this.sysData = sysData;
     }
     /*-----------------------|Incubation Function|-----------------------*/
-    public void incubate (int time, LedIndicator led, String tempLogFile){
+    public void incubate (int inductionTime, int respondTime, LedIndicator led, String tempLogFile){
         int i = 0;
         long tempLong = 0;
         float temp = 0;
+        boolean check = true;
         StringTokenizer strTok;
         String input;
         String tempString = " ";
-        while((i < time) && (!sysData.buttonControl)){
+        while((i < (inductionTime + respondTime)) && (!sysData.buttonControl)){
         /*-----------------------|Code for getting temp data from file|-----------------------*/
             try {
                 tempRead = new Scanner (new FileInputStream(tempLogFile));
@@ -74,26 +75,56 @@ public class LogicRelay {
             i = i + 100;
             pinOne.low();
             pinTwo.low();
+            
             /*-----------------------|Smart Temp Feedback Code|-----------------------*/
-            if(temp < sysData.lowerThresholdTemp){
-                if(sysData.systemOutput){
-                    System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
-                    System.out.println("\nSYSTEM - Temperature too low, adjusting.");
+            if(i<inductionTime){
+            /*-----------------------|Beggining Induction|-----------------------*/
+                if(temp < sysData.inductionTemp){
+                    if(sysData.systemOutput){
+                        System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
+                        System.out.println("\nSYSTEM - Temperature too low, adjusting.");
+                    }
+                    pinOne.high();
+                    pinTwo.low();
+                }else if(temp > sysData.inductionTemp){
+                    if(sysData.systemOutput){
+                        System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
+                        System.out.println("\nSYSTEM - Temperature too high, adjusting.");
+                    }
+                    pinOne.low();
+                    pinTwo.high();
                 }
-                pinOne.high();
-                pinTwo.low();
-            }else if(temp > sysData.upperThresholdTemp){
                 if(sysData.systemOutput){
-                    System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
-                    System.out.println("\nSYSTEM - Temperature too high, adjusting.");
+                    if((((inductionTime - i)/100) % 10) == 0){
+                        System.out.println("\nSYSTEM - Induction time remaining: " + ((inductionTime - i)/100));    
+                    }
                 }
-                pinOne.low();
-                pinTwo.high();
+            }else if((i<(inductionTime + respondTime)) && (i>inductionTime)){
+            /*-----------------------|Beginning Respond|-----------------------*/
+                if(temp < sysData.respondTemp){
+                    if(sysData.systemOutput){
+                        System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
+                        System.out.println("\nSYSTEM - Temperature too low, adjusting.");
+                    }
+                    pinOne.high();
+                    pinTwo.low();
+                }else if(temp > sysData.respondTemp){
+                    if(sysData.systemOutput){
+                        System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
+                        System.out.println("\nSYSTEM - Temperature too high, adjusting.");
+                    }
+                    pinOne.low();
+                    pinTwo.high();
+                }
+                if(sysData.systemOutput){
+                    if((((inductionTime - i)/100) % 10) == 0){
+                        System.out.println("\nSYSTEM - Respond time remaining: " + ((respondTime - i + inductionTime)/100));    
+                    }
+                }
             }
-            if(sysData.systemOutput){
-                if((((time - i)/100) % 10) == 0){
-                    System.out.println("\nSYSTEM - Incubation time remaining: " + ((time - i)/100));    
-                }
+            if((i > inductionTime) && check){
+                check = false;
+                System.out.println("\nSYSTEM - Induction completed");
             }
         }
         System.out.println("\nSYSTEM - Incubation completed, setting MUX");

@@ -13,9 +13,10 @@ package GPIO_Manager;
 public class SystemController {
     boolean buttonControl;
     boolean muxControl;
-    int incubateTime;
+    int inductionTime;
+    int respondTime;
     int muxLockoutTime;
-    float lowerThresholdTemp;
-    float upperThresholdTemp;
+    float respondTemp;
+    float inductionTemp;
     boolean systemOutput;
 }

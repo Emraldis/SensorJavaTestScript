@@ -32,8 +32,13 @@ public class Button {
             @Override
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
                 if(sysControl.buttonControl != false){
+                    logicGate.incubate(sysControl.inductionTime,sysControl.respondTime,led,tempLogFile);
                     sysControl.buttonControl = false;
-                    logicGate.incubate(sysControl.incubateTime,led,tempLogFile);
+                    try {
+                        Thread.sleep(sysControl.muxLockoutTime);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     sysControl.buttonControl = true;
                     try {
                         mux.setMux(buttonID);

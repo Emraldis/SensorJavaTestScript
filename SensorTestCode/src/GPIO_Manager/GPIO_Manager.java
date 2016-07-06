@@ -58,10 +58,11 @@ public class GPIO_Manager {
         SystemController sysControl = new SystemController();
         sysControl.buttonControl = true;
         sysControl.muxControl = true;
-        sysControl.incubateTime = 12000;
+        sysControl.inductionTime = 180000;
+        sysControl.respondTime = 90000;
         sysControl.muxLockoutTime = 12000;
-        sysControl.upperThresholdTemp = 46;
-        sysControl.lowerThresholdTemp = 33;
+        sysControl.inductionTemp = 49;
+        sysControl.respondTemp = 30;
         sysControl.systemOutput = true;
         
         /*-----------------------|ALL pins are declared below. Adding new ones can be done using the same method as seen below|-----------------------*/
@@ -131,18 +132,18 @@ public class GPIO_Manager {
                 menu = scanner.next();
                 if(menu.equals("1") == true){
                     System.out.println("\nPlease enter new Upper threshold temperature\n");
-                    sysControl.upperThresholdTemp = scanner.nextFloat();
-                    System.out.println("\nNew Upper threshold is " + sysControl.upperThresholdTemp);
+                    sysControl.inductionTemp = scanner.nextFloat();
+                    System.out.println("\nNew Upper threshold is " + sysControl.inductionTemp);
                     menu = "d";
                 }else if(menu.equals("2") == true){
                     System.out.println("\nPlease enter new Lower threshold temperature\n");
-                    sysControl.lowerThresholdTemp = scanner.nextFloat();
-                    System.out.println("\nNew Lower threshold is " + sysControl.lowerThresholdTemp);
+                    sysControl.respondTemp = scanner.nextFloat();
+                    System.out.println("\nNew Lower threshold is " + sysControl.respondTemp);
                     menu = "d";
                 }else if(menu.equals("3") == true){
                     System.out.println("\nPlease enter a new incubation time in miliseconds\n");
-                    sysControl.incubateTime = scanner.nextInt();
-                    System.out.println("\nNew Incubate time is " + (sysControl.incubateTime / 100) + " Seconds");
+                    sysControl.inductionTime = scanner.nextInt();
+                    System.out.println("\nNew Incubate time is " + (sysControl.inductionTime / 100) + " Seconds");
                     menu = "d";
                 }else if(menu.equals("4") == true){
                     System.out.println("\nPlease enter a new Mux lockout time in miliseconds\n");
