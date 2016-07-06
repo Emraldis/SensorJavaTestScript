@@ -76,7 +76,8 @@ public class LogicRelay {
                     tempLong = Long.parseLong(tempString);
                     temp = tempLong/1000;
                 }else{
-                    System.out.println("\nError Reading Temperature");
+                    System.out.println("\nError Reading Temperature @ t=" + (i/100)
+                            + "\nTemperature readout was: " + tempString);
                 }
             }
             led.toggle();
