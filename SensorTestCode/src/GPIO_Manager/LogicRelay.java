@@ -59,7 +59,7 @@ public class LogicRelay {
          }
          */
         if (!inUse) {
-            System.out.println("\nSYSTEM - Beginning Induction, " + (sysData.inductionTime / 100) + " seconds remaining.");
+            System.out.println("\nSYSTEM - Beginning Induction of sample " + ID + ", " + (sysData.inductionTime / 100) + " seconds remaining.");
             sysData.buttonControl = false;
             inUse = true;
             while (i < (inductionTime + respondTime)) {

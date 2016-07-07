@@ -58,11 +58,11 @@ public class GPIO_Manager {
         SystemController sysControl = new SystemController();
         sysControl.buttonControl = true;
         sysControl.muxControl = true;
-        sysControl.inductionTime = 3000;
-        sysControl.respondTime = 2000;
-        sysControl.muxLockoutTime = 1000;
-        sysControl.inductionTemp = 25;
-        sysControl.respondTemp = 25;
+        sysControl.inductionTime = 120000;
+        sysControl.respondTime = 90000;
+        sysControl.muxLockoutTime = 12000;
+        sysControl.inductionTemp = 49;
+        sysControl.respondTemp = 30;
         sysControl.systemOutput = true;
         
         /*-----------------------|ALL pins are declared below. Adding new ones can be done using the same method as seen below|-----------------------*/
