@@ -50,7 +50,7 @@ public class GPIO_Manager {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        FileWriter settingsWriter = null;
+        PrintWriter settingsWriter = null;
         String menu = " ";
         Scanner scanner = new Scanner(System.in);
         String tempLogFileOne = " ";
@@ -226,19 +226,15 @@ public class GPIO_Manager {
                     System.out.println("\nExiting Program");
                     menu = "q";
                     try {
-                        settingsWriter = new FileWriter("GPIOSettings", false);
+                        settingsWriter = new PrintWriter(new BufferedWriter(new FileWriter("GPIOSettings", false)));
                     } catch (IOException ex) {
                         Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    try {
-                        settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
-                                + "\nRespondTemp:" + sysControl.respondTemp
-                                + "\nInductionTime:" + sysControl.inductionTime
-                                + "\nRespondTime:" + sysControl.respondTime
-                                + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
-                    } catch (IOException ex) {
-                        Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
+                            + "\nRespondTemp:" + sysControl.respondTemp
+                            + "\nInductionTime:" + sysControl.inductionTime
+                            + "\nRespondTime:" + sysControl.respondTime
+                            + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
                     sysControl.systemOutput = true;
                     logicOne.shutDown();
                     logicTwo.shutDown();
@@ -264,19 +260,15 @@ public class GPIO_Manager {
                 System.out.println("\nExiting Program");
                 menu = "q";
                 try {
-                    settingsWriter = new FileWriter("GPIOSettings", false);
+                    settingsWriter = new PrintWriter(new BufferedWriter(new FileWriter("GPIOSettings", false)));
                 } catch (IOException ex) {
                     Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                try {
-                    settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
-                            + "\nRespondTemp:" + sysControl.respondTemp
-                            + "\nInductionTime:" + sysControl.inductionTime
-                            + "\nRespondTime:" + sysControl.respondTime
-                            + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
-                } catch (IOException ex) {
-                    Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
+                        + "\nRespondTemp:" + sysControl.respondTemp
+                        + "\nInductionTime:" + sysControl.inductionTime
+                        + "\nRespondTime:" + sysControl.respondTime
+                        + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
                 sysControl.systemOutput = true;
                 logicOne.shutDown();
                 logicTwo.shutDown();
