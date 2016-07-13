@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package GPIO_Manager;
-
 /**
  *
  * @author Alfie Feltham
@@ -13,9 +12,11 @@ package GPIO_Manager;
 public class SystemController {
     boolean buttonControl;
     boolean muxControl;
-    int incubateTime;
+    int inductionTime;
+    int respondTime;
     int muxLockoutTime;
-    float lowerThresholdTemp;
-    float upperThresholdTemp;
+    float respondTemp;
+    float inductionTemp;
     boolean systemOutput;
+    
 }

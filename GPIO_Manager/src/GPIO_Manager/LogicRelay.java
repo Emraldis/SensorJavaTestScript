@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package GPIO_Manager;
+
 import java.util.*;
 import java.io.*;
 import com.pi4j.io.gpio.GpioController;
@@ -24,12 +25,17 @@ import com.pi4j.io.gpio.impl.PinImpl;
  * @author Alfie Feltham
  */
 public class LogicRelay {
+
     Scanner tempRead;
     GpioPinDigitalOutput pinOne;
     GpioPinDigitalOutput pinTwo;
     SystemController sysData;
+    boolean inUse = false;
+    boolean triggered = false;
+    StringTokenizer strTok;
     /*-----------------------|Basic Constructor|-----------------------*/
-    public LogicRelay (GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, SystemController sysData) {
+
+    public LogicRelay(GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, SystemController sysData) {
         pinOne = outputOne;
         pinTwo = outputTwo;
         pinOne.low();
@@ -37,69 +43,161 @@ public class LogicRelay {
         this.sysData = sysData;
     }
     /*-----------------------|Incubation Function|-----------------------*/
-    public void incubate (int time, LedIndicator led, String tempLogFile){
+
+    public void incubate(int inductionTime, int respondTime, LedIndicator led, String tempLogFile, int ID) {
         int i = 0;
         long tempLong = 0;
         float temp = 0;
-        StringTokenizer strTok;
+        boolean check = true;
         String input;
         String tempString = " ";
-        while((i < time) && (!sysData.buttonControl)){
-        /*-----------------------|Code for getting temp data from file|-----------------------*/
-            try {
-                tempRead = new Scanner (new FileInputStream(tempLogFile));
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(LogicRelay.class.getName()).log(Level.SEVERE, null, ex);
-                System.out.println("\nCritical Error: temperature probe data file not found");
-            }
-            while(tempRead.hasNextLine()){
-                input = tempRead.nextLine();
-                strTok = new StringTokenizer(input," ");
-                while(strTok.hasMoreTokens()){
-                    tempString = strTok.nextToken();
+        /*
+         if((i < (inductionTime + respondTime)) && (sysData.buttonControl)){
+         System.out.println("\nYES");
+         }else {
+         System.out.println("\nNO");
+         }
+         */
+        if (!inUse) {
+            System.out.println("\nSYSTEM - Beginning Induction of sample " + ID + ", " + (sysData.inductionTime / 100) + " seconds remaining.");
+            sysData.buttonControl = false;
+            inUse = true;
+            while (i < (inductionTime + respondTime)) {
+                /*-----------------------|Code for getting temp data from file|-----------------------*/
+                if ((i >= sysData.muxLockoutTime) && !sysData.buttonControl && !this.triggered) {
+                    sysData.buttonControl = true;
+                    this.triggered = true;
+                    System.out.println("\nButton Lockdown Dropped");
                 }
-                if(tempString.equalsIgnoreCase("YES")){
+                try {
+                    tempRead = new Scanner(new FileInputStream(tempLogFile));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(LogicRelay.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("\nCritical Error: temperature probe data file not found");
+                }
+                while (tempRead.hasNextLine()) {
                     input = tempRead.nextLine();
-                    strTok = new StringTokenizer(input,"=");
-                    while(strTok.hasMoreTokens()){
+                    strTok = new StringTokenizer(input, " ");
+                    while (strTok.hasMoreTokens()) {
                         tempString = strTok.nextToken();
                     }
-                    tempLong = Long.parseLong(tempString);
-                    temp = tempLong/1000;
-                }else{
-                    System.out.println("\nError Reading Temperature");
+                    if ((tempString.equalsIgnoreCase("YES")) && (tempString != null)) {
+                        input = tempRead.nextLine();
+                        strTok = new StringTokenizer(input, "=");
+                        while (strTok.hasMoreTokens()) {
+                            tempString = strTok.nextToken();
+                        }
+                        tempLong = Long.parseLong(tempString);
+                        temp = tempLong / 1000;
+                    } else {
+                        System.out.println("\nError Reading Temperature @ t=" + (i / 100)
+                                + "\nTemperature readout was: " + tempString);
+                    }
                 }
-            }
-            led.toggle();
-            i = i + 100;
-            pinOne.low();
-            pinTwo.low();
-            /*-----------------------|Smart Temp Feedback Code|-----------------------*/
-            if(temp < sysData.lowerThresholdTemp){
-                if(sysData.systemOutput){
-                    System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
-                    System.out.println("\nSYSTEM - Temperature too low, adjusting.");
+                if (i < sysData.muxLockoutTime) {
+                    led.toggle();
+                } else if (i >= sysData.muxLockoutTime) {
+                    led.ledController.high();
                 }
-                pinOne.high();
-                pinTwo.low();
-            }else if(temp > sysData.upperThresholdTemp){
-                if(sysData.systemOutput){
-                    System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
-                    System.out.println("\nSYSTEM - Temperature too high, adjusting.");
-                }
+                i = i + 100;
                 pinOne.low();
-                pinTwo.high();
-            }
-            if(sysData.systemOutput){
-                if((((time - i)/100) % 10) == 0){
-                    System.out.println("\nSYSTEM - Incubation time remaining: " + ((time - i)/100));    
+                pinTwo.low();
+                /*-----------------------|Smart Temp Feedback Code|-----------------------*/
+                if (i < inductionTime) {
+                    /*-----------------------|Beggining Induction|-----------------------*/
+                    if (temp < sysData.inductionTemp) {
+                        if (sysData.systemOutput) {
+                            System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
+                            System.out.println("\nSYSTEM - Temperature too low, adjusting.");
+                        }
+                        pinOne.high();
+                        pinTwo.low();
+                    } else if (temp > sysData.inductionTemp) {
+                        if (sysData.systemOutput) {
+                            System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
+                            System.out.println("\nSYSTEM - Temperature too high, adjusting.");
+                        }
+                        pinOne.low();
+                        pinTwo.high();
+                    }
+                    if (sysData.systemOutput) {
+                        if ((((inductionTime - i) / 100) % 10) == 0) {
+                            System.out.println("\nSYSTEM - Sample " + ID + " Induction time remaining: " + ((inductionTime - i) / 100));
+                        }
+                    }
+                } else if ((i < (inductionTime + respondTime)) && (i > inductionTime)) {
+                    /*-----------------------|Beginning Respond|-----------------------*/
+                    if (temp < sysData.respondTemp) {
+                        if (sysData.systemOutput) {
+                            System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
+                            System.out.println("\nSYSTEM - Temperature too low, adjusting.");
+                        }
+                        pinOne.high();
+                        pinTwo.low();
+                    } else if (temp > sysData.respondTemp) {
+                        if (sysData.systemOutput) {
+                            System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
+                            System.out.println("\nSYSTEM - Temperature too high, adjusting.");
+                        }
+                        pinOne.low();
+                        pinTwo.high();
+                    }
+                    if (sysData.systemOutput) {
+                        if ((((inductionTime - i) / 100) % 10) == 0) {
+                            System.out.println("\nSYSTEM - Sample " + ID + " Respond time remaining: " + ((respondTime - i + inductionTime) / 100));
+                        }
+                    }
                 }
+                if ((i > inductionTime) && check) {
+                    check = false;
+                    System.out.println("\nSYSTEM - Induction completed");
+                }
+            }
+            System.out.println("\nSYSTEM - Incubation completed, setting MUX");
+            this.shutDown();
+            inUse = false;
+            this.triggered = false;
+        } else {
+            System.out.println("\nERROR - Incubation Already Started");
+        }
+    }
+
+    public void interrogate(String tempLogFile) {
+        float temp = 0;
+        String input;
+        String tempString = " ";
+        long tempLong = 0;
+
+        try {
+            tempRead = new Scanner(new FileInputStream(tempLogFile));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(LogicRelay.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("\nCritical Error: temperature probe data file not found");
+        }
+        System.out.println();
+        while (tempRead.hasNextLine()) {
+            input = tempRead.nextLine();
+            strTok = new StringTokenizer(input, " ");
+            while (strTok.hasMoreTokens()) {
+                tempString = strTok.nextToken();
+            }
+            if ((tempString.equalsIgnoreCase("YES")) && (tempString != null)) {
+                input = tempRead.nextLine();
+                strTok = new StringTokenizer(input, "=");
+                while (strTok.hasMoreTokens()) {
+                    tempString = strTok.nextToken();
+                }
+                tempLong = Long.parseLong(tempString);
+                temp = tempLong / 1000;
+            } else {
+                System.out.println("\nError Reading Temperature");
             }
         }
-        System.out.println("\nSYSTEM - Incubation completed, setting MUX");
+    }
+
+    public void shutDown() {
+        pinTwo.high();
         pinOne.low();
         pinTwo.low();
-        led.ledController.high();
     }
-    
 }

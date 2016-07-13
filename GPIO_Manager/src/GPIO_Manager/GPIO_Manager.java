@@ -28,6 +28,8 @@ public class GPIO_Manager {
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String[] args) {
         /*-----------------------|Getting Filenames for temperature logging system|-----------------------*/
         /*
@@ -39,6 +41,16 @@ public class GPIO_Manager {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Scanner settingsScanner = null;
+        StringTokenizer strtok = null;
+        String inputString;
+        String tempString;
+        try {
+            settingsScanner = new Scanner (new FileInputStream("GPIOSettings"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        FileWriter settingsWriter = null;
         String menu = " ";
         Scanner scanner = new Scanner(System.in);
         String tempLogFileOne = " ";
@@ -58,18 +70,41 @@ public class GPIO_Manager {
         SystemController sysControl = new SystemController();
         sysControl.buttonControl = true;
         sysControl.muxControl = true;
-        sysControl.incubateTime = 12000;
+        sysControl.inductionTime = 120000;
+        sysControl.respondTime = 90000;
         sysControl.muxLockoutTime = 12000;
-        sysControl.upperThresholdTemp = 46;
-        sysControl.lowerThresholdTemp = 33;
+        sysControl.inductionTemp = 49;
+        sysControl.respondTemp = 30;
         sysControl.systemOutput = true;
-        
+        /*-----------------------|Loads Settings from file|-----------------------*/
+        while(settingsScanner.hasNextLine()){
+            inputString = settingsScanner.nextLine();
+            strtok = new StringTokenizer(inputString);
+            tempString = strtok.nextToken(":");
+            sysControl.inductionTemp = Integer.valueOf(strtok.nextToken("\n"));
+            inputString = settingsScanner.nextLine();
+            strtok = new StringTokenizer(inputString);
+            tempString = strtok.nextToken(":");
+            sysControl.respondTemp = Integer.valueOf(strtok.nextToken("\n"));
+            inputString = settingsScanner.nextLine();
+            strtok = new StringTokenizer(inputString);
+            tempString = strtok.nextToken(":");
+            sysControl.inductionTime = Integer.valueOf(strtok.nextToken("\n"));
+            inputString = settingsScanner.nextLine();
+            strtok = new StringTokenizer(inputString);
+            tempString = strtok.nextToken(":");
+            sysControl.respondTime = Integer.valueOf(strtok.nextToken("\n"));
+            inputString = settingsScanner.nextLine();
+            strtok = new StringTokenizer(inputString);
+            tempString = strtok.nextToken(":");
+            sysControl.muxLockoutTime = Integer.valueOf(strtok.nextToken("\n"));
+        }
         /*-----------------------|ALL pins are declared below. Adding new ones can be done using the same method as seen below|-----------------------*/
         /*-----------------------|Button Pin setups in WiringPi GPIO Pinout format|-----------------------*/
-        final GpioPinDigitalInput buttonOnePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_08, PinPullResistance.PULL_DOWN);
-        final GpioPinDigitalInput buttonTwoPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, PinPullResistance.PULL_DOWN);
-        final GpioPinDigitalInput buttonThreePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, PinPullResistance.PULL_DOWN);
-        final GpioPinDigitalInput buttonFourPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_21, PinPullResistance.PULL_DOWN);
+        final GpioPinDigitalInput buttonOnePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_08, PinPullResistance.PULL_UP);
+        final GpioPinDigitalInput buttonTwoPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00, PinPullResistance.PULL_UP);
+        final GpioPinDigitalInput buttonThreePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_05, PinPullResistance.PULL_UP);
+        final GpioPinDigitalInput buttonFourPin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_21, PinPullResistance.PULL_UP);
         /*-----------------------|LED Pin setups in WiringPi GPIO Pinout format|-----------------------*/
         final GpioPinDigitalOutput ledOnePin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_09, "LEDOne", PinState.LOW);
         final GpioPinDigitalOutput ledTwoPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "LEDTwo", PinState.LOW);
@@ -123,35 +158,85 @@ public class GPIO_Manager {
             while((menu.equalsIgnoreCase("d")) && (!menu.equalsIgnoreCase("q"))){
                 sysControl.systemOutput = false;
                 System.out.println("\nDebug Menu:"
-                        + "\n1) Change upper threshold temperature"
-                        + "\n2) Change lower threshold temperature"
-                        + "\n3) Change incubation time"
-                        + "\n4) change mux Lockout time"
-                        + "\n5) Exit debug menu");
+                        + "\n1) Change induction threshold temperature (Currently: " + sysControl.inductionTemp + " degrees)"
+                        + "\n2) Change respond threshold temperature (Currently: " + sysControl.respondTemp + " degrees)"
+                        + "\n3) Change induction time (Currently: " + (sysControl.inductionTime / 100) + " seconds)"
+                        + "\n4) Change respond time (Currently: " + (sysControl.respondTime / 100) + " seconds)"
+                        + "\n5) change mux Lockout time (Currently: " + (sysControl.muxLockoutTime / 100) + " seconds)"
+                        + "\n6) Query Sensors"
+                        + "\n7) Exit Debug Menu");
                 menu = scanner.next();
                 if(menu.equals("1") == true){
-                    System.out.println("\nPlease enter new Upper threshold temperature\n");
-                    sysControl.upperThresholdTemp = scanner.nextFloat();
-                    System.out.println("\nNew Upper threshold is " + sysControl.upperThresholdTemp);
+                    System.out.println("\nPlease enter new Induction Temperature threshold temperature\n");
+                    sysControl.inductionTemp = scanner.nextFloat();
+                    System.out.println("\nNew Induction Temperature threshold is " + sysControl.inductionTemp);
                     menu = "d";
                 }else if(menu.equals("2") == true){
-                    System.out.println("\nPlease enter new Lower threshold temperature\n");
-                    sysControl.lowerThresholdTemp = scanner.nextFloat();
-                    System.out.println("\nNew Lower threshold is " + sysControl.lowerThresholdTemp);
+                    System.out.println("\nPlease enter new Respond Temperature threshold temperature\n");
+                    sysControl.respondTemp = scanner.nextFloat();
+                    System.out.println("\nNew Respond Temperature threshold is " + sysControl.respondTemp);
                     menu = "d";
                 }else if(menu.equals("3") == true){
-                    System.out.println("\nPlease enter a new incubation time in miliseconds\n");
-                    sysControl.incubateTime = scanner.nextInt();
-                    System.out.println("\nNew Incubate time is " + (sysControl.incubateTime / 100) + " Seconds");
+                    System.out.println("\nPlease enter a new Induction time in seconds\n");
+                    sysControl.inductionTime = (scanner.nextInt() * 100);
+                    System.out.println("\nNew Induction time is " + (sysControl.inductionTime / 100) + " Seconds");
                     menu = "d";
                 }else if(menu.equals("4") == true){
-                    System.out.println("\nPlease enter a new Mux lockout time in miliseconds\n");
-                    sysControl.muxLockoutTime = scanner.nextInt();
-                    System.out.println("\nNew Mux Lockout time is " + (sysControl.muxLockoutTime / 100) + " Seconds");
+                    System.out.println("\nPlease enter a new Respond time in seconds\n");
+                    sysControl.respondTime = (scanner.nextInt() * 100);;
+                    System.out.println("\nNew Respond time is " + (sysControl.respondTime / 100) + " Seconds");
                     menu = "d";
                 }else if(menu.equals("5") == true){
+                    System.out.println("\nPlease enter a new Mux lockout time in seconds\n");
+                    sysControl.muxLockoutTime = (scanner.nextInt() * 100);;
+                    System.out.println("\nNew Mux Lockout time is " + (sysControl.muxLockoutTime / 100) + " Seconds");
+                    menu = "d";
+                }else if(menu.equals("6") == true){
+                    System.out.println("\nEnter the number of the sensor you wish to query (IE: 1,2,3 or 4)\n");
+                    menu = scanner.next();
+                    switch(menu){
+                        case("1"):
+                            logicOne.interrogate(tempLogFileOne);
+                            menu = "d";
+                            break;
+                        case("2"):
+                            logicTwo.interrogate(tempLogFileTwo);
+                            menu = "d";
+                            break;
+                        case("3"):
+                            logicThree.interrogate(tempLogFileThree);
+                            menu = "d";
+                            break;
+                        case("4"):
+                            logicFour.interrogate(tempLogFileFour);
+                            menu = "d";
+                            break;
+                        default:
+                            System.out.println("\nInput Not recognized, returning to debug menu\n");
+                            menu = "d";
+                            break;
+                    }
+                }else if(menu.equals("7") == true){
                     System.out.println("\nExiting debug menu");
                     menu = " ";
+                    sysControl.systemOutput = true;
+                }else if(menu.equals("q") == true){
+                    System.out.println("\nExiting Program");
+                    menu = "q";
+                    try {
+                        settingsWriter = new FileWriter("GPIOSettings",false);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
+                        + "\nRespondTemp:" + sysControl.respondTemp
+                        + "\nInductionTime:" + sysControl.inductionTime
+                        + "\nRespondTime:" + sysControl.respondTime
+                        + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
+                    } catch (IOException ex) {
+                        Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     sysControl.systemOutput = true;
                 }else{
                     System.out.println("\nInvalid menu option, please try again.\n");
@@ -159,6 +244,10 @@ public class GPIO_Manager {
                 }
             }
         }
+    }
+    
+    public void quitListener (){
+        
     }
     
 }

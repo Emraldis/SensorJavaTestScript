@@ -65,7 +65,7 @@ public class MuxControl {
                     this.writeBit(0);
                     this.writeBit(0);
                     this.writeBit(0);
-                    this.writeBit(1);
+                    this.writeBit(0);
                     break;
                 case 2:
                     this.writeBit(0);
@@ -75,8 +75,8 @@ public class MuxControl {
                     this.writeBit(0);
                     this.writeBit(0);
                     this.writeBit(0);
-                    this.writeBit(1);
                     this.writeBit(0);
+                    this.writeBit(1);
                     break;
                 case 3:
                     this.writeBit(0);
@@ -87,7 +87,7 @@ public class MuxControl {
                     this.writeBit(0);
                     this.writeBit(0);
                     this.writeBit(1);
-                    this.writeBit(1);
+                    this.writeBit(0);
                     break;
                 case 4:
                     this.writeBit(0);
@@ -96,8 +96,8 @@ public class MuxControl {
                     this.writeBit(0);
                     this.writeBit(0);
                     this.writeBit(0);
-                    this.writeBit(1);
                     this.writeBit(0);
+                    this.writeBit(1);
                     this.writeBit(0);
                     break;
                     
@@ -118,7 +118,9 @@ public class MuxControl {
             DIN.high();
             lockout.muxControl = false;
             /*-----------------------|Locks out MUX for the set Mux Lockout time|-----------------------*/
-            System.out.println("SYSTEM - MUX set, locking down mux for 2 minuites");
+            System.out.println("SYSTEM - MUX set, locking down mux for "
+                    + (lockout.muxLockoutTime / 100)
+                    + " seconds");
             Thread.sleep(lockout.muxLockoutTime);
             lockout.muxControl = true;
             System.out.println("SYSTEM - MUX Lockdown Dropped");

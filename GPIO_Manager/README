@@ -61,3 +61,5 @@ MUX Pins:
 	SYNC	26
 	CLK		27
 	DIN		28
+	
+MUX Channels used, S1 through S4
