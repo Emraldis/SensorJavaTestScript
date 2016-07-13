@@ -30,7 +30,6 @@ public class GPIO_Manager {
     /**
      * @param args the command line arguments
      */
-
     public static void main(String[] args) {
         /*-----------------------|Getting Filenames for temperature logging system|-----------------------*/
         /*
@@ -250,6 +249,11 @@ public class GPIO_Manager {
                     ledThree.off();
                     ledFour.off();
                     muxController.shutDown();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     System.exit(0);
                 } else {
                     System.out.println("\nInvalid menu option, please try again.\n");
@@ -283,6 +287,11 @@ public class GPIO_Manager {
                 ledThree.off();
                 ledFour.off();
                 muxController.shutDown();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 System.exit(0);
             }
         }

@@ -33,6 +33,7 @@ public class LogicRelay {
     boolean inUse = false;
     boolean triggered = false;
     StringTokenizer strTok;
+    float temp = 0;
     /*-----------------------|Basic Constructor|-----------------------*/
 
     public LogicRelay(GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, SystemController sysData) {
@@ -47,7 +48,6 @@ public class LogicRelay {
     public void incubate(int inductionTime, int respondTime, LedIndicator led, String tempLogFile, int ID) {
         int i = 0;
         long tempLong = 0;
-        float temp = 0;
         boolean check = true;
         String input;
         String tempString = " ";
@@ -156,39 +156,38 @@ public class LogicRelay {
     }
 
     public void interrogate(String tempLogFile) {
-        float temp = 0;
         String input;
         String tempString = " ";
         long tempLong = 0;
 
-        try {
-            tempRead = new Scanner(new FileInputStream(tempLogFile));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(LogicRelay.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("\nCritical Error: temperature probe data file not found");
-        }
-        System.out.println();
-        while (tempRead.hasNextLine()) {
-            input = tempRead.nextLine();
-            strTok = new StringTokenizer(input, " ");
-            while (strTok.hasMoreTokens()) {
-                tempString = strTok.nextToken();
+        if (!inUse) {
+            try {
+                tempRead = new Scanner(new FileInputStream(tempLogFile));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(LogicRelay.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("\nCritical Error: temperature probe data file not found");
             }
-            if ((tempString.equalsIgnoreCase("YES")) && (tempString != null)) {
+            System.out.println();
+            while (tempRead.hasNextLine()) {
                 input = tempRead.nextLine();
-                strTok = new StringTokenizer(input, "=");
+                strTok = new StringTokenizer(input, " ");
                 while (strTok.hasMoreTokens()) {
                     tempString = strTok.nextToken();
                 }
-                tempLong = Long.parseLong(tempString);
-                temp = tempLong / 1000;
-            } else {
-                System.out.println("\nError Reading Temperature");
+                if ((tempString.equalsIgnoreCase("YES")) && (tempString != null)) {
+                    input = tempRead.nextLine();
+                    strTok = new StringTokenizer(input, "=");
+                    while (strTok.hasMoreTokens()) {
+                        tempString = strTok.nextToken();
+                    }
+                    tempLong = Long.parseLong(tempString);
+                    temp = tempLong / 1000;
+                } else {
+                    System.out.println("\nError Reading Temperature");
+                }
             }
-        }
-        if (!inUse) {
             System.out.println("\nNo Sample. Ambient Temperature: " + temp);
-        }else{
+        } else {
             System.out.println("\nTemperature:" + temp);
         }
     }
