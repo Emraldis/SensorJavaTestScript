@@ -242,6 +242,11 @@ public class GPIO_Manager {
                     logicTwo.shutDown();
                     logicThree.shutDown();
                     logicFour.shutDown();
+                    ledOne.off();
+                    ledTwo.off();
+                    ledThree.off();
+                    ledFour.off();
+                    muxController.shutDown();
                 }else{
                     System.out.println("\nInvalid menu option, please try again.\n");
                     menu = "d";

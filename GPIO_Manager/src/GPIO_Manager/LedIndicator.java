@@ -42,4 +42,8 @@ public class LedIndicator {
     public void toggle(){
         ledController.toggle();
     }
+    
+    public void off(){
+        ledController.low();
+    }
 }

@@ -138,4 +138,10 @@ public class MuxControl {
         SCLK.high();
         
     }
+    
+    public void shutDown(){
+        SYNC.low();
+        SCLK.low();
+        DIN.low();
+    }
 }
