@@ -99,6 +99,7 @@ public class GPIO_Manager {
             tempString = strtok.nextToken(":");
             sysControl.muxLockoutTime = Integer.valueOf(strtok.nextToken("\n"));
         }
+        System.out.println("\nSYSTEM - Settings loaded");
         /*-----------------------|ALL pins are declared below. Adding new ones can be done using the same method as seen below|-----------------------*/
         /*-----------------------|Button Pin setups in WiringPi GPIO Pinout format|-----------------------*/
         final GpioPinDigitalInput buttonOnePin = gpio.provisionDigitalInputPin(RaspiPin.GPIO_08, PinPullResistance.PULL_UP);
