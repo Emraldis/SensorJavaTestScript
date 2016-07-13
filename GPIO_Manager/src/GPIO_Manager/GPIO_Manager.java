@@ -230,7 +230,7 @@ public class GPIO_Manager {
                     } catch (IOException ex) {
                         Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
+                    settingsWriter.println("InductionTemp:" + sysControl.inductionTemp
                             + "\nRespondTemp:" + sysControl.respondTemp
                             + "\nInductionTime:" + sysControl.inductionTime
                             + "\nRespondTime:" + sysControl.respondTime
@@ -264,7 +264,7 @@ public class GPIO_Manager {
                 } catch (IOException ex) {
                     Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
+                settingsWriter.println("InductionTemp:" + sysControl.inductionTemp
                         + "\nRespondTemp:" + sysControl.respondTemp
                         + "\nInductionTime:" + sysControl.inductionTime
                         + "\nRespondTime:" + sysControl.respondTime
