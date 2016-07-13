@@ -157,7 +157,7 @@ public class GPIO_Manager {
         while(!menu.equalsIgnoreCase("q")){
             menu = scanner.next();
             sysControl.systemOutput = true;
-            while((menu.equalsIgnoreCase("d")) && (!menu.equalsIgnoreCase("q"))){
+            while((menu.equalsIgnoreCase("d"))){
                 sysControl.systemOutput = false;
                 System.out.println("\nDebug Menu:"
                         + "\n1) Change induction threshold temperature (Currently: " + sysControl.inductionTemp + " degrees)"
