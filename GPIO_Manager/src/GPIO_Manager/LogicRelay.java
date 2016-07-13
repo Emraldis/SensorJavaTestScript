@@ -51,13 +51,6 @@ public class LogicRelay {
         boolean check = true;
         String input;
         String tempString = " ";
-        /*
-         if((i < (inductionTime + respondTime)) && (sysData.buttonControl)){
-         System.out.println("\nYES");
-         }else {
-         System.out.println("\nNO");
-         }
-         */
         if (!inUse) {
             System.out.println("\nSYSTEM - Beginning Induction of sample " + ID + ", " + (sysData.inductionTime / 100) + " seconds remaining.");
             sysData.buttonControl = false;
@@ -192,6 +185,11 @@ public class LogicRelay {
             } else {
                 System.out.println("\nError Reading Temperature");
             }
+        }
+        if (!inUse) {
+            System.out.println("\nNo Sample. Ambient Temperature: " + temp);
+        }else{
+            System.out.println("\nTemperature:" + temp);
         }
     }
 

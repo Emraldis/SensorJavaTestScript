@@ -238,6 +238,10 @@ public class GPIO_Manager {
                         Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     sysControl.systemOutput = true;
+                    logicOne.shutDown();
+                    logicTwo.shutDown();
+                    logicThree.shutDown();
+                    logicFour.shutDown();
                 }else{
                     System.out.println("\nInvalid menu option, please try again.\n");
                     menu = "d";

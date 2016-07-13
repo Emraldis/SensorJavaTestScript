@@ -25,7 +25,6 @@ public class Button {
     /*
     This button class is easily repeatable, just add "Button BUTTON_NAME = new Button(sysControl,APPROPRIATE_PIN_OBJECT,APPROPRIATE_LOGIC_RELAY_OBJECT,APPROPRIATE_LED_CONTROLLER_OBJECT,muxController,BUTTON_NUMBER,APPROPRIATE_THERMOMETER_FILENAME); to the main function in GPIO_Manager.java"
     */
-    boolean inUse = false;
     
     public Button(SystemController sysControl, GpioPinDigitalInput buttonPin, LogicRelay logicGate, LedIndicator led, MuxControl mux, int buttonID, String tempLogFile){
         buttonPin.addListener(new GpioPinListenerDigital(){
@@ -34,7 +33,6 @@ public class Button {
             @Override
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
                 if(sysControl.buttonControl != false){
-                    inUse = true;
                     System.out.println("Button " + buttonID + " Pushed");
                     logicGate.incubate(sysControl.inductionTime,sysControl.respondTime,led,tempLogFile,buttonID);
                     try {
@@ -42,7 +40,6 @@ public class Button {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    inUse = false;
                 }
             }
             
