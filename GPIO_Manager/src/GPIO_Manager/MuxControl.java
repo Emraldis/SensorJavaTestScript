@@ -123,6 +123,7 @@ public class MuxControl {
                     + " seconds");
             Thread.sleep(lockout.muxLockoutTime);
             lockout.muxControl = true;
+            lockout.ControlLight(setting, false);
             System.out.println("SYSTEM - MUX Lockdown Dropped");
         }
     }

@@ -144,7 +144,8 @@ public class GPIO_Manager {
         Button buttonTwo = new Button(sysControl,buttonTwoPin,logicTwo,ledTwo,muxController,2,tempLogFileTwo);
         Button buttonThree = new Button(sysControl,buttonThreePin,logicThree,ledThree,muxController,3,tempLogFileThree);
         Button buttonFour = new Button(sysControl,buttonFourPin,logicFour,ledFour,muxController,4,tempLogFileFour);
-        
+        /*-----------------------|Adding LEDs to system controller|-----------------------*/
+        sysControl.AddIndicators(ledOne, ledTwo, ledThree, ledFour);
         /*-----------------------|Beginning program loop and Debug menu loop|-----------------------*/
         /*
         This is a basic text menu. A value must be entered for it to do something (IE press "d" and then "enter")
