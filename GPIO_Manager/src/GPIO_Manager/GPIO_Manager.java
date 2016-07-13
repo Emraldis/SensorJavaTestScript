@@ -81,23 +81,23 @@ public class GPIO_Manager {
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
-            sysControl.inductionTemp = Integer.valueOf(strtok.nextToken("\n"));
+            sysControl.inductionTemp = Integer.valueOf(strtok.nextToken(":"));
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
-            sysControl.respondTemp = Integer.valueOf(strtok.nextToken("\n"));
+            sysControl.respondTemp = Integer.valueOf(strtok.nextToken(":"));
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
-            sysControl.inductionTime = Integer.valueOf(strtok.nextToken("\n"));
+            sysControl.inductionTime = Integer.valueOf(strtok.nextToken(":"));
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
-            sysControl.respondTime = Integer.valueOf(strtok.nextToken("\n"));
+            sysControl.respondTime = Integer.valueOf(strtok.nextToken(":"));
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
-            sysControl.muxLockoutTime = Integer.valueOf(strtok.nextToken("\n"));
+            sysControl.muxLockoutTime = Integer.valueOf(strtok.nextToken(":"));
         }
         System.out.println("\nSYSTEM - Settings loaded");
         /*-----------------------|ALL pins are declared below. Adding new ones can be done using the same method as seen below|-----------------------*/
