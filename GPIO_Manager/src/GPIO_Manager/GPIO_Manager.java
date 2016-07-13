@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package GPIO_Manager;
+
 import java.util.*;
 import java.io.*;
 import com.pi4j.io.gpio.*;
@@ -25,19 +26,19 @@ import com.pi4j.io.gpio.impl.PinImpl;
  * @author Alfie Feltham
  */
 public class GPIO_Manager {
+
     /**
      * @param args the command line arguments
      */
-    
-    
+
     public static void main(String[] args) {
         /*-----------------------|Getting Filenames for temperature logging system|-----------------------*/
         /*
-        To add a new thermometer filename, get its serial number and put that in the TemSensorSerial file (in a new line), and add another tempLogFile variable below, in the same manner.
-        */
+         To add a new thermometer filename, get its serial number and put that in the TemSensorSerial file (in a new line), and add another tempLogFile variable below, in the same manner.
+         */
         Scanner serialScanner = null;
         try {
-            serialScanner = new Scanner (new FileInputStream("TempSensorSerial"));
+            serialScanner = new Scanner(new FileInputStream("TempSensorSerial"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -46,7 +47,7 @@ public class GPIO_Manager {
         String inputString;
         String tempString;
         try {
-            settingsScanner = new Scanner (new FileInputStream("GPIOSettings"));
+            settingsScanner = new Scanner(new FileInputStream("GPIOSettings"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -57,13 +58,13 @@ public class GPIO_Manager {
         String tempLogFileTwo = " ";
         String tempLogFileThree = " ";
         String tempLogFileFour = " ";
-        while(serialScanner.hasNextLine()){
+        while (serialScanner.hasNextLine()) {
             tempLogFileOne = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
             tempLogFileTwo = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
             tempLogFileThree = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
             tempLogFileFour = ("/sys/bus/w1/devices/" + serialScanner.nextLine() + "/w1_slave");
         }
-        
+
         /*-----------------------|Setting up GPIO Controller|-----------------------*/
         final GpioController gpio = GpioFactory.getInstance();
         /*-----------------------|"global" button and mux control variables, as well as incubation time, mux lockout time, and the threshold temperatures, all stored in this object|-----------------------*/
@@ -77,7 +78,7 @@ public class GPIO_Manager {
         sysControl.respondTemp = 30;
         sysControl.systemOutput = true;
         /*-----------------------|Loads Settings from file|-----------------------*/
-        while(settingsScanner.hasNextLine()){
+        while (settingsScanner.hasNextLine()) {
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
@@ -124,40 +125,40 @@ public class GPIO_Manager {
         final GpioPinDigitalOutput MuxSYNC = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MUXSYNC", PinState.HIGH);
         final GpioPinDigitalOutput MuxSCLK = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_27, "MUXSCLK", PinState.HIGH);
         final GpioPinDigitalOutput MuxDIN = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_28, "MUXDIN", PinState.HIGH);
-        
+
         System.out.println("\nSYSTEM - Pin setup Completed");
-        
+
         /*-----------------------|Creating LED indicator classes|-----------------------*/
         LedIndicator ledOne = new LedIndicator(ledOnePin);
         LedIndicator ledTwo = new LedIndicator(ledTwoPin);
         LedIndicator ledThree = new LedIndicator(ledThreePin);
         LedIndicator ledFour = new LedIndicator(ledFourPin);
         /*-----------------------|Creating logic relay control classes|-----------------------*/
-        LogicRelay logicOne = new LogicRelay(LogicOneAPin,LogicOneBPin,sysControl);
-        LogicRelay logicTwo = new LogicRelay(LogicTwoAPin,LogicTwoBPin,sysControl);
-        LogicRelay logicThree = new LogicRelay(LogicThreeAPin,LogicThreeBPin,sysControl);
-        LogicRelay logicFour = new LogicRelay(LogicFourAPin,LogicFourBPin,sysControl);
+        LogicRelay logicOne = new LogicRelay(LogicOneAPin, LogicOneBPin, sysControl);
+        LogicRelay logicTwo = new LogicRelay(LogicTwoAPin, LogicTwoBPin, sysControl);
+        LogicRelay logicThree = new LogicRelay(LogicThreeAPin, LogicThreeBPin, sysControl);
+        LogicRelay logicFour = new LogicRelay(LogicFourAPin, LogicFourBPin, sysControl);
         /*-----------------------|Creating Mux Controller class|-----------------------*/
-        MuxControl muxController = new MuxControl(MuxSYNC,MuxSCLK,MuxDIN,sysControl);
+        MuxControl muxController = new MuxControl(MuxSYNC, MuxSCLK, MuxDIN, sysControl);
         /*-----------------------|Creating Button classes|-----------------------*/
-        Button buttonOne = new Button(sysControl,buttonOnePin,logicOne,ledOne,muxController,1,tempLogFileOne);
-        Button buttonTwo = new Button(sysControl,buttonTwoPin,logicTwo,ledTwo,muxController,2,tempLogFileTwo);
-        Button buttonThree = new Button(sysControl,buttonThreePin,logicThree,ledThree,muxController,3,tempLogFileThree);
-        Button buttonFour = new Button(sysControl,buttonFourPin,logicFour,ledFour,muxController,4,tempLogFileFour);
+        Button buttonOne = new Button(sysControl, buttonOnePin, logicOne, ledOne, muxController, 1, tempLogFileOne);
+        Button buttonTwo = new Button(sysControl, buttonTwoPin, logicTwo, ledTwo, muxController, 2, tempLogFileTwo);
+        Button buttonThree = new Button(sysControl, buttonThreePin, logicThree, ledThree, muxController, 3, tempLogFileThree);
+        Button buttonFour = new Button(sysControl, buttonFourPin, logicFour, ledFour, muxController, 4, tempLogFileFour);
         /*-----------------------|Adding LEDs to system controller|-----------------------*/
         sysControl.AddIndicators(ledOne, ledTwo, ledThree, ledFour);
         /*-----------------------|Beginning program loop and Debug menu loop|-----------------------*/
         /*
-        This is a basic text menu. A value must be entered for it to do something (IE press "d" and then "enter")
-        */
+         This is a basic text menu. A value must be entered for it to do something (IE press "d" and then "enter")
+         */
         System.out.println("\nSYSTEM - Element initiation completed"
                 + "\n"
                 + "\nSystem Initiated. Enter 'd' to enter debug mode, Enter 'q' to quit.");
-        
-        while(!menu.equalsIgnoreCase("q")){
+
+        while (!menu.equalsIgnoreCase("q")) {
             menu = scanner.next();
             sysControl.systemOutput = true;
-            while((menu.equalsIgnoreCase("d"))){
+            while ((menu.equalsIgnoreCase("d"))) {
                 sysControl.systemOutput = false;
                 System.out.println("\nDebug Menu:"
                         + "\n1) Change induction threshold temperature (Currently: " + sysControl.inductionTemp + " degrees)"
@@ -168,48 +169,48 @@ public class GPIO_Manager {
                         + "\n6) Query Sensors"
                         + "\n7) Exit Debug Menu");
                 menu = scanner.next();
-                if(menu.equals("1") == true){
+                if (menu.equals("1") == true) {
                     System.out.println("\nPlease enter new Induction Temperature threshold temperature\n");
                     sysControl.inductionTemp = scanner.nextFloat();
                     System.out.println("\nNew Induction Temperature threshold is " + sysControl.inductionTemp);
                     menu = "d";
-                }else if(menu.equals("2") == true){
+                } else if (menu.equals("2") == true) {
                     System.out.println("\nPlease enter new Respond Temperature threshold temperature\n");
                     sysControl.respondTemp = scanner.nextFloat();
                     System.out.println("\nNew Respond Temperature threshold is " + sysControl.respondTemp);
                     menu = "d";
-                }else if(menu.equals("3") == true){
+                } else if (menu.equals("3") == true) {
                     System.out.println("\nPlease enter a new Induction time in seconds\n");
                     sysControl.inductionTime = (scanner.nextInt() * 100);
                     System.out.println("\nNew Induction time is " + (sysControl.inductionTime / 100) + " Seconds");
                     menu = "d";
-                }else if(menu.equals("4") == true){
+                } else if (menu.equals("4") == true) {
                     System.out.println("\nPlease enter a new Respond time in seconds\n");
                     sysControl.respondTime = (scanner.nextInt() * 100);;
                     System.out.println("\nNew Respond time is " + (sysControl.respondTime / 100) + " Seconds");
                     menu = "d";
-                }else if(menu.equals("5") == true){
+                } else if (menu.equals("5") == true) {
                     System.out.println("\nPlease enter a new Mux lockout time in seconds\n");
                     sysControl.muxLockoutTime = (scanner.nextInt() * 100);;
                     System.out.println("\nNew Mux Lockout time is " + (sysControl.muxLockoutTime / 100) + " Seconds");
                     menu = "d";
-                }else if(menu.equals("6") == true){
+                } else if (menu.equals("6") == true) {
                     System.out.println("\nEnter the number of the sensor you wish to query (IE: 1,2,3 or 4)\n");
                     menu = scanner.next();
-                    switch(menu){
-                        case("1"):
+                    switch (menu) {
+                        case ("1"):
                             logicOne.interrogate(tempLogFileOne);
                             menu = "d";
                             break;
-                        case("2"):
+                        case ("2"):
                             logicTwo.interrogate(tempLogFileTwo);
                             menu = "d";
                             break;
-                        case("3"):
+                        case ("3"):
                             logicThree.interrogate(tempLogFileThree);
                             menu = "d";
                             break;
-                        case("4"):
+                        case ("4"):
                             logicFour.interrogate(tempLogFileFour);
                             menu = "d";
                             break;
@@ -218,24 +219,24 @@ public class GPIO_Manager {
                             menu = "d";
                             break;
                     }
-                }else if(menu.equals("7") == true){
+                } else if (menu.equals("7") == true) {
                     System.out.println("\nExiting debug menu");
                     menu = " ";
                     sysControl.systemOutput = true;
-                }else if(menu.equals("q") == true){
+                } else if (menu.equals("q") == true) {
                     System.out.println("\nExiting Program");
                     menu = "q";
                     try {
-                        settingsWriter = new FileWriter("GPIOSettings",false);
+                        settingsWriter = new FileWriter("GPIOSettings", false);
                     } catch (IOException ex) {
                         Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     try {
                         settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
-                        + "\nRespondTemp:" + sysControl.respondTemp
-                        + "\nInductionTime:" + sysControl.inductionTime
-                        + "\nRespondTime:" + sysControl.respondTime
-                        + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
+                                + "\nRespondTemp:" + sysControl.respondTemp
+                                + "\nInductionTime:" + sysControl.inductionTime
+                                + "\nRespondTime:" + sysControl.respondTime
+                                + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
                     } catch (IOException ex) {
                         Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -249,16 +250,41 @@ public class GPIO_Manager {
                     ledThree.off();
                     ledFour.off();
                     muxController.shutDown();
-                }else{
+                    System.exit(0);
+                } else {
                     System.out.println("\nInvalid menu option, please try again.\n");
                     menu = "d";
                 }
             }
+            if (menu.equals("q") == true) {
+                System.out.println("\nExiting Program");
+                menu = "q";
+                try {
+                    settingsWriter = new FileWriter("GPIOSettings", false);
+                } catch (IOException ex) {
+                    Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                try {
+                    settingsWriter.write("InductionTemp:" + sysControl.inductionTemp
+                            + "\nRespondTemp:" + sysControl.respondTemp
+                            + "\nInductionTime:" + sysControl.inductionTime
+                            + "\nRespondTime:" + sysControl.respondTime
+                            + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
+                } catch (IOException ex) {
+                    Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                sysControl.systemOutput = true;
+                logicOne.shutDown();
+                logicTwo.shutDown();
+                logicThree.shutDown();
+                logicFour.shutDown();
+                ledOne.off();
+                ledTwo.off();
+                ledThree.off();
+                ledFour.off();
+                muxController.shutDown();
+                System.exit(0);
+            }
         }
     }
-    
-    public void quitListener (){
-        
-    }
-    
 }
