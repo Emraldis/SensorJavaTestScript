@@ -1,6 +1,6 @@
 all:
-	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/SystemController.java
 	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/LedIndicator.java
+	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/SystemController.java
 	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/LogicRelay.java
 	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/MuxControl.java
 	javac -cp .:classes:/opt/pi4j/lib/'*' -d . ./src/GPIO_Manager/Button.java
