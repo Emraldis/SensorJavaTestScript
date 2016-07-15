@@ -143,7 +143,7 @@ public class LogicRelay {
                 }
                 if ((i > inductionTime) && check) {
                     check = false;
-                    System.out.println("\nSYSTEM - Sample " + ID + " induction completed");
+                    System.out.println("\nSYSTEM - Sample " + ID + " Induction completed");
                 }
             }
             System.out.println("\nSYSTEM - Sample " + ID + "incubation completed, setting MUX");

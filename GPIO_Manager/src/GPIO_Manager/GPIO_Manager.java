@@ -45,6 +45,7 @@ public class GPIO_Manager {
         StringTokenizer strtok = null;
         String inputString;
         String tempString;
+        String settings = " ";
         try {
             settingsScanner = new Scanner(new FileInputStream("GPIOSettings"));
         } catch (FileNotFoundException ex) {
@@ -231,11 +232,13 @@ public class GPIO_Manager {
                     } catch (IOException ex) {
                         Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    settingsWriter.println("InductionTemp:" + sysControl.inductionTemp
+                    settings = ("InductionTemp:" + sysControl.inductionTemp
                             + "\nRespondTemp:" + sysControl.respondTemp
                             + "\nInductionTime:" + sysControl.inductionTime
                             + "\nRespondTime:" + sysControl.respondTime
                             + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
+                    System.out.println("\nTEST:\n%s");
+                    settingsWriter.println(settings);
                     sysControl.systemOutput = true;
                     sysControl.shutdown = true;
                     logicOne.shutDown();
@@ -267,11 +270,13 @@ public class GPIO_Manager {
                 } catch (IOException ex) {
                     Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                settingsWriter.println("InductionTemp:" + sysControl.inductionTemp
+                settings = ("InductionTemp:" + sysControl.inductionTemp
                         + "\nRespondTemp:" + sysControl.respondTemp
                         + "\nInductionTime:" + sysControl.inductionTime
                         + "\nRespondTime:" + sysControl.respondTime
                         + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
+                settingsWriter.println(settings);
+                System.out.println("\nTEST:\n%s");
                 sysControl.systemOutput = true;
                 sysControl.shutdown = true;
                 logicOne.shutDown();
