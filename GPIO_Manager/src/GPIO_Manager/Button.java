@@ -34,7 +34,11 @@ public class Button {
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
                 if(sysControl.buttonControl != false){
                     System.out.println("Button " + buttonID + " Pushed");
-                    logicGate.incubate(sysControl.inductionTime,sysControl.respondTime,led,tempLogFile,buttonID);
+                    try {
+                        logicGate.incubate(sysControl.inductionTime,sysControl.respondTime,led,tempLogFile,buttonID);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Button.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     try {
                         mux.setMux(buttonID);
                     } catch (InterruptedException ex) {

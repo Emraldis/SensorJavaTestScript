@@ -30,7 +30,7 @@ public class GPIO_Manager {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         /*-----------------------|Getting Filenames for temperature logging system|-----------------------*/
         /*
          To add a new thermometer filename, get its serial number and put that in the TemSensorSerial file (in a new line), and add another tempLogFile variable below, in the same manner.
