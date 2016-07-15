@@ -45,7 +45,7 @@ public class LogicRelay {
     }
     /*-----------------------|Incubation Function|-----------------------*/
 
-    public void incubate(int inductionTime, int respondTime, LedIndicator led, String tempLogFile, int ID) {
+    public void incubate(int inductionTime, int respondTime, LedIndicator led, String tempLogFile, int ID) throws InterruptedException {
         int i = 0;
         long tempLong = 0;
         boolean check = true;
@@ -192,8 +192,9 @@ public class LogicRelay {
         }
     }
 
-    public void shutDown() {
+    public void shutDown() throws InterruptedException {
         pinTwo.high();
+        Thread.sleep(100);
         pinOne.low();
         pinTwo.low();
     }
