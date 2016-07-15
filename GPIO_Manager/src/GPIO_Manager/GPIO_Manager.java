@@ -237,7 +237,7 @@ public class GPIO_Manager {
                             + "\nInductionTime:" + sysControl.inductionTime
                             + "\nRespondTime:" + sysControl.respondTime
                             + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
-                    System.out.println("\nTEST:\n%s");
+                    System.out.println("\nTEST:\n" + settings);
                     settingsWriter.println(settings);
                     sysControl.systemOutput = true;
                     sysControl.shutdown = true;
@@ -276,7 +276,7 @@ public class GPIO_Manager {
                         + "\nRespondTime:" + sysControl.respondTime
                         + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
                 settingsWriter.println(settings);
-                System.out.println("\nTEST:\n%s");
+                System.out.println("\nTEST:\n" + settings);
                 sysControl.systemOutput = true;
                 sysControl.shutdown = true;
                 logicOne.shutDown();

@@ -121,7 +121,7 @@ public class MuxControl {
             System.out.println("SYSTEM - MUX set, locking down mux for "
                     + (lockout.muxLockoutTime / 100)
                     + " seconds");
-            Thread.sleep(lockout.muxLockoutTime);
+            Thread.sleep(lockout.muxLockoutTime * 10);
             lockout.muxControl = true;
             lockout.ControlLight(setting, false);
             System.out.println("SYSTEM - MUX Lockdown Dropped");
