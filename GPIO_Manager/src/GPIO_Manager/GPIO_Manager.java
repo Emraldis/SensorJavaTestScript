@@ -76,6 +76,7 @@ public class GPIO_Manager {
         sysControl.inductionTemp = 49;
         sysControl.respondTemp = 30;
         sysControl.systemOutput = true;
+        sysControl.shutdown = false;
         /*-----------------------|Loads Settings from file|-----------------------*/
         while (settingsScanner.hasNextLine()) {
             inputString = settingsScanner.nextLine();
@@ -236,6 +237,7 @@ public class GPIO_Manager {
                             + "\nRespondTime:" + sysControl.respondTime
                             + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
                     sysControl.systemOutput = true;
+                    sysControl.shutdown = true;
                     logicOne.shutDown();
                     logicTwo.shutDown();
                     logicThree.shutDown();
@@ -271,6 +273,7 @@ public class GPIO_Manager {
                         + "\nRespondTime:" + sysControl.respondTime
                         + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
                 sysControl.systemOutput = true;
+                sysControl.shutdown = true;
                 logicOne.shutDown();
                 logicTwo.shutDown();
                 logicThree.shutDown();

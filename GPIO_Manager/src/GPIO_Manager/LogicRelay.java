@@ -55,7 +55,7 @@ public class LogicRelay {
             System.out.println("\nSYSTEM - Beginning Induction of sample " + ID + ", " + (sysData.inductionTime / 100) + " seconds remaining.");
             sysData.buttonControl = false;
             inUse = true;
-            while (i < (inductionTime + respondTime)) {
+            while ((i < (inductionTime + respondTime)) && !sysData.shutdown) {
                 /*-----------------------|Code for getting temp data from file|-----------------------*/
                 if ((i >= sysData.muxLockoutTime) && !sysData.buttonControl && !this.triggered) {
                     sysData.buttonControl = true;

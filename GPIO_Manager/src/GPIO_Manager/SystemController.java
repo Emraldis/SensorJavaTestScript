@@ -18,6 +18,7 @@ public class SystemController {
     float respondTemp;
     float inductionTemp;
     boolean systemOutput;
+    boolean shutdown;
     
     LedIndicator ledOne;
     LedIndicator ledTwo;
