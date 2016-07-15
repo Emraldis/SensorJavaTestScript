@@ -72,7 +72,7 @@ public class GPIO_Manager {
         sysControl.muxControl = true;
         sysControl.inductionTime = 120000;
         sysControl.respondTime = 90000;
-        sysControl.muxLockoutTime = 12000;
+        sysControl.muxLockoutTime = 1000;
         sysControl.inductionTemp = 49;
         sysControl.respondTemp = 30;
         sysControl.systemOutput = true;
