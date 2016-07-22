@@ -51,7 +51,7 @@ public class MuxControl {
                     break;
     */
     public void setMux (int setting) throws InterruptedException{
-        SYNC.high();
+        SYNC.low();
         SCLK.high();
         DIN.high();
         if(lockout.muxControl != false){
