@@ -14,7 +14,7 @@ public class SystemController {
     boolean muxControl;
     int inductionTime;
     int respondTime;
-    int muxLockoutTime;
+    int voltammetryTime;
     float respondTemp;
     float inductionTemp;
     boolean systemOutput;

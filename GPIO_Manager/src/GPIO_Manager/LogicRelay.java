@@ -57,7 +57,7 @@ public class LogicRelay {
             inUse = true;
             while ((i < (inductionTime + respondTime)) && !sysData.shutdown) {
                 /*-----------------------|Code for getting temp data from file|-----------------------*/
-                if ((i >= sysData.muxLockoutTime) && !sysData.buttonControl && !this.triggered) {
+                if ((i >= sysData.voltammetryTime) && !sysData.buttonControl && !this.triggered) {
                     sysData.buttonControl = true;
                     this.triggered = true;
                     System.out.println("\nButton Lockdown Dropped");
@@ -87,9 +87,9 @@ public class LogicRelay {
                                 + "\nTemperature readout was: " + tempString);
                     }
                 }
-                if (i < sysData.muxLockoutTime) {
+                if (i < sysData.voltammetryTime) {
                     led.toggle();
-                } else if (i >= sysData.muxLockoutTime) {
+                } else if (i >= sysData.voltammetryTime) {
                     led.ledController.high();
                 }
                 i = i + 100;

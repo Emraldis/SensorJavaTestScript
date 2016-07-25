@@ -73,7 +73,7 @@ public class GPIO_Manager {
         sysControl.muxControl = true;
         sysControl.inductionTime = 120000;
         sysControl.respondTime = 90000;
-        sysControl.muxLockoutTime = 12000;
+        sysControl.voltammetryTime = 12000;
         sysControl.inductionTemp = 49;
         sysControl.respondTemp = 30;
         sysControl.systemOutput = true;
@@ -99,7 +99,7 @@ public class GPIO_Manager {
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
-            sysControl.muxLockoutTime = Integer.valueOf(strtok.nextToken(":"));
+            sysControl.voltammetryTime = Integer.valueOf(strtok.nextToken(":"));
         }
         System.out.println("\nSYSTEM - Settings loaded");
         /*-----------------------|ALL pins are declared below. Adding new ones can be done using the same method as seen below|-----------------------*/
@@ -158,7 +158,7 @@ public class GPIO_Manager {
 
         while (!menu.equalsIgnoreCase("q")) {
             menu = scanner.next();
-            sysControl.systemOutput = true;
+            sysControl.systemOutput = false;
             while ((menu.equalsIgnoreCase("d"))) {
                 sysControl.systemOutput = false;
                 System.out.println("\nDebug Menu:"
@@ -166,7 +166,7 @@ public class GPIO_Manager {
                         + "\n2) Change respond threshold temperature (Currently: " + sysControl.respondTemp + " degrees)"
                         + "\n3) Change induction time (Currently: " + (sysControl.inductionTime / 100) + " seconds)"
                         + "\n4) Change respond time (Currently: " + (sysControl.respondTime / 100) + " seconds)"
-                        + "\n5) change mux Lockout time (Currently: " + (sysControl.muxLockoutTime / 100) + " seconds)"
+                        + "\n5) change mux Lockout time (Currently: " + (sysControl.voltammetryTime / 100) + " seconds)"
                         + "\n6) Query Sensors"
                         + "\n7) Exit Debug Menu");
                 menu = scanner.next();
@@ -191,9 +191,9 @@ public class GPIO_Manager {
                     System.out.println("\nNew Respond time is " + (sysControl.respondTime / 100) + " Seconds");
                     menu = "d";
                 } else if (menu.equals("5") == true) {
-                    System.out.println("\nPlease enter a new Mux lockout time in seconds\n");
-                    sysControl.muxLockoutTime = (scanner.nextInt() * 100);;
-                    System.out.println("\nNew Mux Lockout time is " + (sysControl.muxLockoutTime / 100) + " Seconds");
+                    System.out.println("\nPlease enter a new Voltammetry time in seconds\n");
+                    sysControl.voltammetryTime = (scanner.nextInt() * 100);;
+                    System.out.println("\nNew Voltammetry time is " + (sysControl.voltammetryTime / 100) + " Seconds");
                     menu = "d";
                 } else if (menu.equals("6") == true) {
                     System.out.println("\nEnter the number of the sensor you wish to query (IE: 1,2,3 or 4)\n");
@@ -223,23 +223,23 @@ public class GPIO_Manager {
                 } else if (menu.equals("7") == true) {
                     System.out.println("\nExiting debug menu");
                     menu = " ";
-                    sysControl.systemOutput = true;
+                    sysControl.systemOutput = false;
                 } else if (menu.equals("q") == true) {
                     System.out.println("\nExiting Program");
                     menu = "q";
                     try {
                         settingsWriter = new PrintWriter(new BufferedWriter(new FileWriter("GPIOSettings", false)));
                     } catch (IOException ex) {
-                        Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("\nError Writing to file");
                     }
                     settings = ("InductionTemp:" + sysControl.inductionTemp
                             + "\nRespondTemp:" + sysControl.respondTemp
                             + "\nInductionTime:" + sysControl.inductionTime
                             + "\nRespondTime:" + sysControl.respondTime
-                            + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
+                            + "\nVoltammetryTime:" + sysControl.voltammetryTime);
                     System.out.println("\nTEST:\n" + settings);
                     settingsWriter.println(settings);
-                    sysControl.systemOutput = true;
+                    sysControl.systemOutput = false;
                     sysControl.shutdown = true;
                     logicOne.shutDown();
                     logicTwo.shutDown();
@@ -268,16 +268,16 @@ public class GPIO_Manager {
                 try {
                     settingsWriter = new PrintWriter(new BufferedWriter(new FileWriter("GPIOSettings", false)));
                 } catch (IOException ex) {
-                    Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("\nError Writing to file");
                 }
                 settings = ("InductionTemp:" + sysControl.inductionTemp
                         + "\nRespondTemp:" + sysControl.respondTemp
                         + "\nInductionTime:" + sysControl.inductionTime
                         + "\nRespondTime:" + sysControl.respondTime
-                        + "\nMuxLocoutTime:" + sysControl.muxLockoutTime);
+                        + "\nVoltammetryTime:" + sysControl.voltammetryTime);
                 settingsWriter.println(settings);
                 System.out.println("\nTEST:\n" + settings);
-                sysControl.systemOutput = true;
+                sysControl.systemOutput = false;
                 sysControl.shutdown = true;
                 logicOne.shutDown();
                 logicTwo.shutDown();
