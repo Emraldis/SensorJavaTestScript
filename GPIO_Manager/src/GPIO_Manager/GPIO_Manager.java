@@ -154,7 +154,7 @@ public class GPIO_Manager {
          */
         System.out.println("\nSYSTEM - Element initiation completed"
                 + "\n"
-                + "\nSystem Initiated. Enter 'd' to enter debug mode, Enter 'q' to quit.");
+                + "\nSYSTEM - System Initiated. Enter 'd' to enter debug mode, Enter 'q' to quit.");
 
         while (!menu.equalsIgnoreCase("q")) {
             menu = scanner.next();
@@ -166,7 +166,7 @@ public class GPIO_Manager {
                         + "\n2) Change respond threshold temperature (Currently: " + sysControl.respondTemp + " degrees)"
                         + "\n3) Change induction time (Currently: " + (sysControl.inductionTime / 100) + " seconds)"
                         + "\n4) Change respond time (Currently: " + (sysControl.respondTime / 100) + " seconds)"
-                        + "\n5) change mux Lockout time (Currently: " + (sysControl.voltammetryTime / 100) + " seconds)"
+                        + "\n5) change Voltammetry time (Currently: " + (sysControl.voltammetryTime / 100) + " seconds)"
                         + "\n6) Query Sensors"
                         + "\n7) Exit Debug Menu");
                 menu = scanner.next();
@@ -221,23 +221,22 @@ public class GPIO_Manager {
                             break;
                     }
                 } else if (menu.equals("7") == true) {
-                    System.out.println("\nExiting debug menu");
+                    System.out.println("\nSYSTEM - Exiting debug menu");
                     menu = " ";
                     sysControl.systemOutput = false;
                 } else if (menu.equals("q") == true) {
-                    System.out.println("\nExiting Program");
+                    System.out.println("\nSYSTEM - Exiting Program");
                     menu = "q";
                     try {
                         settingsWriter = new PrintWriter(new BufferedWriter(new FileWriter("GPIOSettings", false)));
                     } catch (IOException ex) {
-                        System.out.println("\nError Writing to file");
+                        System.out.println("\nSYSTEM - Error Writing to file");
                     }
                     settings = ("InductionTemp:" + sysControl.inductionTemp
                             + "\nRespondTemp:" + sysControl.respondTemp
                             + "\nInductionTime:" + sysControl.inductionTime
                             + "\nRespondTime:" + sysControl.respondTime
                             + "\nVoltammetryTime:" + sysControl.voltammetryTime);
-                    System.out.println("\nTEST:\n" + settings);
                     settingsWriter.println(settings);
                     settingsWriter.close();
                     sysControl.systemOutput = false;
@@ -259,17 +258,17 @@ public class GPIO_Manager {
                     }
                     System.exit(0);
                 } else {
-                    System.out.println("\nInvalid menu option, please try again.\n");
+                    System.out.println("\nSYSTEM - Invalid menu option, please try again.\n");
                     menu = "d";
                 }
             }
             if (menu.equals("q") == true) {
-                System.out.println("\nExiting Program");
+                System.out.println("\nSYSTEM - Exiting Program");
                 menu = "q";
                 try {
                     settingsWriter = new PrintWriter(new BufferedWriter(new FileWriter("GPIOSettings", false)));
                 } catch (IOException ex) {
-                    System.out.println("\nError Writing to file");
+                    System.out.println("\nSYSTEM - Error Writing to file");
                 }
                 settings = ("InductionTemp:" + sysControl.inductionTemp
                         + "\nRespondTemp:" + sysControl.respondTemp
@@ -277,7 +276,6 @@ public class GPIO_Manager {
                         + "\nRespondTime:" + sysControl.respondTime
                         + "\nVoltammetryTime:" + sysControl.voltammetryTime);
                 settingsWriter.println(settings);
-                System.out.println("\nTEST:\n" + settings);
                 settingsWriter.close();
                 sysControl.systemOutput = false;
                 sysControl.shutdown = true;
