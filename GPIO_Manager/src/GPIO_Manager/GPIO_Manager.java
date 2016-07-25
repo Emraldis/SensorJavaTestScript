@@ -239,6 +239,7 @@ public class GPIO_Manager {
                             + "\nVoltammetryTime:" + sysControl.voltammetryTime);
                     System.out.println("\nTEST:\n" + settings);
                     settingsWriter.println(settings);
+                    settingsWriter.close();
                     sysControl.systemOutput = false;
                     sysControl.shutdown = true;
                     logicOne.shutDown();
@@ -277,6 +278,7 @@ public class GPIO_Manager {
                         + "\nVoltammetryTime:" + sysControl.voltammetryTime);
                 settingsWriter.println(settings);
                 System.out.println("\nTEST:\n" + settings);
+                settingsWriter.close();
                 sysControl.systemOutput = false;
                 sysControl.shutdown = true;
                 logicOne.shutDown();
