@@ -83,11 +83,11 @@ public class GPIO_Manager {
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
-            sysControl.inductionTemp = Integer.valueOf(strtok.nextToken(":"));
+            sysControl.inductionTemp = Float.valueOf(strtok.nextToken(":"));
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
-            sysControl.respondTemp = Integer.valueOf(strtok.nextToken(":"));
+            sysControl.respondTemp = Float.valueOf(strtok.nextToken(":"));
             inputString = settingsScanner.nextLine();
             strtok = new StringTokenizer(inputString);
             tempString = strtok.nextToken(":");
