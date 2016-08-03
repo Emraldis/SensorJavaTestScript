@@ -13,8 +13,6 @@ package GPIO_Manager;
  */
 public class DelayManager {
 
-    //Clock timer;
-
     public DelayManager() {
         
     }
