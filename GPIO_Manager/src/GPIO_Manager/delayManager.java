@@ -11,11 +11,11 @@ import java.time.*;
  *
  * @author Alfie Feltham
  */
-public class delayManager {
+public class DelayManager {
 
     LocalTime timer;
 
-    public delayManager() {
+    public DelayManager() {
     }
 
     public void waitSeconds(int seconds) throws InterruptedException {

@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class LedIndicator {
     GpioPinDigitalOutput ledController;
-    delayManager timer;
+    DelayManager timer;
     /*-----------------------|Basic Constructor|-----------------------*/
     public LedIndicator (GpioPinDigitalOutput ledControl){
         ledController = ledControl;

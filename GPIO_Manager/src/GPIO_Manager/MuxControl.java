@@ -25,7 +25,7 @@ public class MuxControl {
     GpioPinDigitalOutput SCLK;
     GpioPinDigitalOutput DIN;
     SystemController lockout;
-    delayManager timer;
+    DelayManager timer;
     /*-----------------------|Basic Constructor|-----------------------*/
     public MuxControl (GpioPinDigitalOutput SYNC, GpioPinDigitalOutput SCLK, GpioPinDigitalOutput DIN, SystemController sysControl){
         this.SYNC = SYNC;
