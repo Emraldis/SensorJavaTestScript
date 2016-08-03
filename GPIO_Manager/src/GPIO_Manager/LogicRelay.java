@@ -30,7 +30,7 @@ public class LogicRelay {
     GpioPinDigitalOutput pinOne;
     GpioPinDigitalOutput pinTwo;
     SystemController sysData;
-    DelayManager timer;
+    DelayManager timer = new DelayManager();
     boolean inUse = false;
     boolean triggered = false;
     StringTokenizer strTok;
