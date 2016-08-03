@@ -25,6 +25,7 @@ public class MuxControl {
     GpioPinDigitalOutput SCLK;
     GpioPinDigitalOutput DIN;
     SystemController lockout;
+    delayManager timer;
     /*-----------------------|Basic Constructor|-----------------------*/
     public MuxControl (GpioPinDigitalOutput SYNC, GpioPinDigitalOutput SCLK, GpioPinDigitalOutput DIN, SystemController sysControl){
         this.SYNC = SYNC;
@@ -119,9 +120,9 @@ public class MuxControl {
             lockout.muxControl = false;
             /*-----------------------|Locks out MUX for the set Mux Lockout time|-----------------------*/
             System.out.println("SYSTEM - MUX set, locking down mux for "
-                    + (lockout.voltammetryTime / 100)
+                    + (lockout.voltammetryTime)
                     + " seconds");
-            Thread.sleep(lockout.voltammetryTime * 10);
+            timer.waitSeconds(lockout.voltammetryTime);
             lockout.muxControl = true;
             lockout.ControlLight(setting, false);
             System.out.println("SYSTEM - MUX Lockdown Dropped");
@@ -135,7 +136,7 @@ public class MuxControl {
             DIN.low();
         }
         SCLK.low();
-        Thread.sleep(2);
+        timer.waitSeconds(2);
         SCLK.high();
         
     }

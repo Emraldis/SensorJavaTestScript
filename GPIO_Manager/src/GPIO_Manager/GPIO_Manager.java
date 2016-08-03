@@ -71,9 +71,9 @@ public class GPIO_Manager {
         SystemController sysControl = new SystemController();
         sysControl.buttonControl = true;
         sysControl.muxControl = true;
-        sysControl.inductionTime = 120000;
-        sysControl.respondTime = 90000;
-        sysControl.voltammetryTime = 12000;
+        sysControl.inductionTime = 1200;
+        sysControl.respondTime = 900;
+        sysControl.voltammetryTime = 120;
         sysControl.inductionTemp = 49;
         sysControl.respondTemp = 30;
         sysControl.systemOutput = true;
@@ -164,9 +164,9 @@ public class GPIO_Manager {
                 System.out.println("\nDebug Menu:"
                         + "\n1) Change induction threshold temperature (Currently: " + sysControl.inductionTemp + " degrees)"
                         + "\n2) Change respond threshold temperature (Currently: " + sysControl.respondTemp + " degrees)"
-                        + "\n3) Change induction time (Currently: " + (sysControl.inductionTime / 100) + " seconds)"
-                        + "\n4) Change respond time (Currently: " + (sysControl.respondTime / 100) + " seconds)"
-                        + "\n5) change Voltammetry time (Currently: " + (sysControl.voltammetryTime / 100) + " seconds)"
+                        + "\n3) Change induction time (Currently: " + (sysControl.inductionTime) + " seconds)"
+                        + "\n4) Change respond time (Currently: " + (sysControl.respondTime) + " seconds)"
+                        + "\n5) change Voltammetry time (Currently: " + (sysControl.voltammetryTime) + " seconds)"
                         + "\n6) Query Sensors"
                         + "\n7) Exit Debug Menu");
                 menu = scanner.next();
@@ -182,18 +182,18 @@ public class GPIO_Manager {
                     menu = "d";
                 } else if (menu.equals("3") == true) {
                     System.out.println("\nPlease enter a new Induction time in seconds\n");
-                    sysControl.inductionTime = (scanner.nextInt() * 100);
-                    System.out.println("\nNew Induction time is " + (sysControl.inductionTime / 100) + " Seconds");
+                    sysControl.inductionTime = (scanner.nextInt());
+                    System.out.println("\nNew Induction time is " + (sysControl.inductionTime) + " Seconds");
                     menu = "d";
                 } else if (menu.equals("4") == true) {
                     System.out.println("\nPlease enter a new Respond time in seconds\n");
-                    sysControl.respondTime = (scanner.nextInt() * 100);;
-                    System.out.println("\nNew Respond time is " + (sysControl.respondTime / 100) + " Seconds");
+                    sysControl.respondTime = (scanner.nextInt());
+                    System.out.println("\nNew Respond time is " + (sysControl.respondTime) + " Seconds");
                     menu = "d";
                 } else if (menu.equals("5") == true) {
                     System.out.println("\nPlease enter a new Voltammetry time in seconds\n");
-                    sysControl.voltammetryTime = (scanner.nextInt() * 100);;
-                    System.out.println("\nNew Voltammetry time is " + (sysControl.voltammetryTime / 100) + " Seconds");
+                    sysControl.voltammetryTime = (scanner.nextInt());
+                    System.out.println("\nNew Voltammetry time is " + (sysControl.voltammetryTime) + " Seconds");
                     menu = "d";
                 } else if (menu.equals("6") == true) {
                     System.out.println("\nEnter the number of the sensor you wish to query (IE: 1,2,3 or 4)\n");
@@ -251,11 +251,6 @@ public class GPIO_Manager {
                     ledFour.off();
                     muxController.shutDown();
                     System.out.println("\nSYSTEM - Settings saved, shutting down");
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                     System.exit(0);
                 } else {
                     System.out.println("\nSYSTEM - Invalid menu option, please try again.\n");
@@ -289,11 +284,6 @@ public class GPIO_Manager {
                 ledFour.off();
                 muxController.shutDown();
                 System.out.println("\nSYSTEM - Settings saved, shutting down");
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(GPIO_Manager.class.getName()).log(Level.SEVERE, null, ex);
-                }
                 System.exit(0);
             }
         }

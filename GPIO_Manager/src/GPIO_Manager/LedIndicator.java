@@ -22,6 +22,7 @@ import java.util.logging.Logger;
  */
 public class LedIndicator {
     GpioPinDigitalOutput ledController;
+    delayManager timer;
     /*-----------------------|Basic Constructor|-----------------------*/
     public LedIndicator (GpioPinDigitalOutput ledControl){
         ledController = ledControl;
@@ -31,9 +32,9 @@ public class LedIndicator {
     public void blink (int duration, int onTime, int offTime) throws InterruptedException{
         int i = 0;
         while(i <duration){
-            Thread.sleep(offTime);
+            timer.waitSeconds(offTime);
             ledController.high();
-            Thread.sleep(onTime);
+            timer.waitSeconds(onTime);
             ledController.low();
             i = (i + onTime + offTime);
         }
