@@ -5,7 +5,7 @@
  */
 package GPIO_Manager;
 
-import java.time.*;
+//import java.time.*;
 
 /**
  *
@@ -13,7 +13,7 @@ import java.time.*;
  */
 public class DelayManager {
 
-    Clock timer;
+    //Clock timer;
 
     public DelayManager() {
         
@@ -22,11 +22,11 @@ public class DelayManager {
     public void waitSeconds(int seconds) throws InterruptedException {
         long second;
         long start;
-        start = timer.millis();
+        start = System.currentTimeMillis();
         second = start;
         while(second < (start + (seconds * 1000))){
             Thread.sleep(1);
-            second = timer.millis();
+            second = System.currentTimeMillis();
         }
     }
 
