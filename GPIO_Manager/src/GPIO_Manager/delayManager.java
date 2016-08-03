@@ -13,19 +13,20 @@ import java.time.*;
  */
 public class DelayManager {
 
-    LocalTime timer;
+    Clock timer;
 
     public DelayManager() {
+        
     }
 
     public void waitSeconds(int seconds) throws InterruptedException {
-        int second;
-        int start;
-        start = timer.getSecond();
+        long second;
+        long start;
+        start = timer.millis();
         second = start;
-        while(second < (start + seconds)){
+        while(second < (start + (seconds * 1000))){
             Thread.sleep(1);
-            second = timer.getSecond();
+            second = timer.millis();
         }
     }
 
