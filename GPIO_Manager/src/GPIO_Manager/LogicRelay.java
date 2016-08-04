@@ -99,7 +99,8 @@ public class LogicRelay {
                 }
                 tempCurrentTime = System.currentTimeMillis();
                 while(tempCurrentTime < (tempStartTime + 1)){
-                    Thread.sleep(1);
+                    System.out.println("\n" + tempStartTime + ":" + tempCurrentTime);
+                    Thread.sleep(10);
                     tempCurrentTime = System.currentTimeMillis();
                 }
                 i = i + 1;
