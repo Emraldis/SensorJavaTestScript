@@ -163,6 +163,7 @@ public class LogicRelay {
                 }
                 //timer.waitSeconds(1);
                 //System.out.println("\nTICK");
+                currentTime = System.currentTimeMillis();
             }
             System.out.println("\nSYSTEM - Sample " + ID + "incubation completed, setting MUX");
             this.shutDown();
