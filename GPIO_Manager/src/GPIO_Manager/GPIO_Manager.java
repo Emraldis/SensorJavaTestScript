@@ -76,7 +76,7 @@ public class GPIO_Manager {
         sysControl.voltammetryTime = 120;
         sysControl.inductionTemp = 49;
         sysControl.respondTemp = 30;
-        sysControl.systemOutput = true;
+        sysControl.systemOutput = false;
         sysControl.shutdown = false;
         /*-----------------------|Loads Settings from file|-----------------------*/
         while (settingsScanner.hasNextLine()) {

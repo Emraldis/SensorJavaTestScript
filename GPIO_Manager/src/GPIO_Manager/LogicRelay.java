@@ -53,8 +53,6 @@ public class LogicRelay {
         boolean check = true;
         String input;
         String tempString = " ";
-        long tempStartTime;
-        long tempCurrentTime;
         if (!inUse) {
             System.out.println("\nSYSTEM - Beginning Induction of sample " + ID + ", " + (sysData.inductionTime) + " seconds remaining.");
             sysData.buttonControl = false;
@@ -62,8 +60,6 @@ public class LogicRelay {
             startTime = System.currentTimeMillis();
             currentTime = startTime;
             while ((currentTime < (startTime + ((inductionTime + respondTime) * 1000))) && !sysData.shutdown) {
-                tempStartTime = System.currentTimeMillis();
-                tempCurrentTime = tempStartTime;
                 /*-----------------------|Code for getting temp data from file|-----------------------*/
                 if ((((currentTime - startTime) / 1000) >= sysData.voltammetryTime) && !sysData.buttonControl && !this.triggered) {
                     sysData.buttonControl = true;
@@ -99,15 +95,6 @@ public class LogicRelay {
                     led.toggle();
                 } else if (((currentTime - startTime) / 1000) >= sysData.voltammetryTime) {
                     led.ledController.high();
-                }
-                tempCurrentTime = System.currentTimeMillis();
-                System.out.println("\n" + tempStartTime + ":" + tempCurrentTime);
-                while (tempCurrentTime < (tempStartTime + 1000)) {
-                    Thread.sleep(1);
-                    tempCurrentTime = System.currentTimeMillis();
-                    if (tempCurrentTime >= (tempStartTime + 1000)) {
-                        System.out.println("\n" + tempStartTime + ":" + tempCurrentTime);
-                    }
                 }
                 currentTime = System.currentTimeMillis();
                 pinOne.low();
@@ -165,7 +152,7 @@ public class LogicRelay {
                 //timer.waitSeconds(1);
                 //System.out.println("\nTICK");
             }
-            System.out.println("\nSYSTEM - Sample " + ID + "incubation completed, setting MUX");
+            System.out.println("\nSYSTEM - Sample " + ID + " incubation completed, setting MUX");
             this.shutDown();
             inUse = false;
             this.triggered = false;
