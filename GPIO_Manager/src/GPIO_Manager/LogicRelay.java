@@ -100,7 +100,7 @@ public class LogicRelay {
                 pinOne.low();
                 pinTwo.low();
                 /*-----------------------|Smart Temp Feedback Code|-----------------------*/
-                if (((currentTime - startTime) / 1000) < inductionTime - 1) {
+                if (((currentTime - startTime) / 1000) < inductionTime) {
                     /*-----------------------|Beggining Induction|-----------------------*/
                     if (temp < sysData.inductionTemp) {
                         if (sysData.systemOutput) {
@@ -122,7 +122,7 @@ public class LogicRelay {
                             System.out.println("\nSYSTEM - Sample " + ID + " Induction time remaining: " + ((inductionTime - ((currentTime - startTime) / 1000))));
                         }
                     }
-                } else if ((((currentTime - startTime) / 1000) < (inductionTime + respondTime - 1)) && (((currentTime - startTime) / 1000) >= inductionTime - 1)) {
+                } else if ((((currentTime - startTime) / 1000) < (inductionTime + respondTime)) && (((currentTime - startTime) / 1000) >= inductionTime)) {
                     /*-----------------------|Beginning Respond|-----------------------*/
                     if (temp < sysData.respondTemp) {
                         if (sysData.systemOutput) {
@@ -145,7 +145,7 @@ public class LogicRelay {
                         }
                     }
                 }
-                if ((((currentTime - startTime) / 1000) > inductionTime) && check) {
+                if ((((currentTime - startTime) / 1000) >= inductionTime) && check) {
                     check = false;
                     System.out.println("\nSYSTEM - Sample " + ID + " Induction completed");
                 }
