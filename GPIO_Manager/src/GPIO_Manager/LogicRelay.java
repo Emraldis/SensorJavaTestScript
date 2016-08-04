@@ -98,8 +98,8 @@ public class LogicRelay {
                     led.ledController.high();
                 }
                 tempCurrentTime = System.currentTimeMillis();
+                System.out.println("\n" + tempStartTime + ":" + tempCurrentTime);
                 while(tempCurrentTime < (tempStartTime + 1)){
-                    System.out.println("\n" + tempStartTime + ":" + tempCurrentTime);
                     Thread.sleep(10);
                     tempCurrentTime = System.currentTimeMillis();
                 }
