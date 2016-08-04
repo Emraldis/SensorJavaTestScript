@@ -65,7 +65,7 @@ public class LogicRelay {
                 tempStartTime = System.currentTimeMillis();
                 tempCurrentTime = tempStartTime;
                 /*-----------------------|Code for getting temp data from file|-----------------------*/
-                if ((i >= sysData.voltammetryTime) && !sysData.buttonControl && !this.triggered) {
+                if ((((startTime - currentTime) / 1000) >= sysData.voltammetryTime) && !sysData.buttonControl && !this.triggered) {
                     sysData.buttonControl = true;
                     this.triggered = true;
                     System.out.println("\nButton Lockdown Dropped");
@@ -134,7 +134,7 @@ public class LogicRelay {
                             System.out.println("\nSYSTEM - Sample " + ID + " Induction time remaining: " + ((inductionTime - ((startTime - currentTime) / 1000))));
                         }
                     }
-                } else if ((((startTime - currentTime) / 1000) < (inductionTime + respondTime)) && (i > inductionTime)) {
+                } else if ((((startTime - currentTime) / 1000) < (inductionTime + respondTime)) && (((startTime - currentTime) / 1000) > inductionTime)) {
                     /*-----------------------|Beginning Respond|-----------------------*/
                     if (temp < sysData.respondTemp) {
                         if (sysData.systemOutput) {
