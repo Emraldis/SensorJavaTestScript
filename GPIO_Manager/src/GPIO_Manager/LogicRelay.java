@@ -99,9 +99,12 @@ public class LogicRelay {
                 }
                 tempCurrentTime = System.currentTimeMillis();
                 System.out.println("\n" + tempStartTime + ":" + tempCurrentTime);
-                while(tempCurrentTime < (tempStartTime + 1000)){
-                    Thread.sleep(10);
+                while (tempCurrentTime < (tempStartTime + 1000)) {
+                    Thread.sleep(1);
                     tempCurrentTime = System.currentTimeMillis();
+                    if (tempCurrentTime >= (tempStartTime + 1000)) {
+                        System.out.println("\n" + tempStartTime + ":" + tempCurrentTime);
+                    }
                 }
                 i = i + 1;
                 pinOne.low();
