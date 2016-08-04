@@ -52,11 +52,15 @@ public class LogicRelay {
         boolean check = true;
         String input;
         String tempString = " ";
+        long tempStartTime;
+        long tempCurrentTime;
         if (!inUse) {
             System.out.println("\nSYSTEM - Beginning Induction of sample " + ID + ", " + (sysData.inductionTime) + " seconds remaining.");
             sysData.buttonControl = false;
             inUse = true;
             while ((i < (inductionTime + respondTime)) && !sysData.shutdown) {
+                tempStartTime = System.currentTimeMillis();
+                tempCurrentTime = tempStartTime;
                 /*-----------------------|Code for getting temp data from file|-----------------------*/
                 if ((i >= sysData.voltammetryTime) && !sysData.buttonControl && !this.triggered) {
                     sysData.buttonControl = true;
@@ -92,6 +96,11 @@ public class LogicRelay {
                     led.toggle();
                 } else if (i >= sysData.voltammetryTime) {
                     led.ledController.high();
+                }
+                tempCurrentTime = System.currentTimeMillis();
+                while(tempCurrentTime < (tempStartTime + 1)){
+                    Thread.sleep(1);
+                    tempCurrentTime = System.currentTimeMillis();
                 }
                 i = i + 1;
                 pinOne.low();
@@ -146,7 +155,7 @@ public class LogicRelay {
                     check = false;
                     System.out.println("\nSYSTEM - Sample " + ID + " Induction completed");
                 }
-                timer.waitSeconds(1);
+                //timer.waitSeconds(1);
                 System.out.println("\nTICK");
             }
             System.out.println("\nSYSTEM - Sample " + ID + "incubation completed, setting MUX");
