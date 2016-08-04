@@ -35,6 +35,8 @@ public class LogicRelay {
     boolean triggered = false;
     StringTokenizer strTok;
     float temp = 0;
+    long startTime;
+    long currentTime;
     /*-----------------------|Basic Constructor|-----------------------*/
 
     public LogicRelay(GpioPinDigitalOutput outputOne, GpioPinDigitalOutput outputTwo, SystemController sysData) {
@@ -47,7 +49,6 @@ public class LogicRelay {
     /*-----------------------|Incubation Function|-----------------------*/
 
     public void incubate(int inductionTime, int respondTime, LedIndicator led, String tempLogFile, int ID) throws InterruptedException {
-        int i = 0;
         long tempLong = 0;
         boolean check = true;
         String input;
@@ -58,7 +59,9 @@ public class LogicRelay {
             System.out.println("\nSYSTEM - Beginning Induction of sample " + ID + ", " + (sysData.inductionTime) + " seconds remaining.");
             sysData.buttonControl = false;
             inUse = true;
-            while ((i < (inductionTime + respondTime)) && !sysData.shutdown) {
+            startTime = System.currentTimeMillis();
+            currentTime = startTime;
+            while ((currentTime < (startTime + ((inductionTime + respondTime) * 1000))) && !sysData.shutdown) {
                 tempStartTime = System.currentTimeMillis();
                 tempCurrentTime = tempStartTime;
                 /*-----------------------|Code for getting temp data from file|-----------------------*/
@@ -88,13 +91,13 @@ public class LogicRelay {
                         tempLong = Long.parseLong(tempString);
                         temp = tempLong / 1000;
                     } else {
-                        System.out.println("\nSYSTEM - Error Reading Temperature @ t=" + (i)
+                        System.out.println("\nSYSTEM - Error Reading Temperature @ t=" + ((startTime - currentTime) / 1000)
                                 + "\nTemperature readout was: " + tempString);
                     }
                 }
-                if (i < sysData.voltammetryTime) {
+                if (((startTime - currentTime) / 1000) < sysData.voltammetryTime) {
                     led.toggle();
-                } else if (i >= sysData.voltammetryTime) {
+                } else if (((startTime - currentTime) / 1000) >= sysData.voltammetryTime) {
                     led.ledController.high();
                 }
                 tempCurrentTime = System.currentTimeMillis();
@@ -106,11 +109,10 @@ public class LogicRelay {
                         System.out.println("\n" + tempStartTime + ":" + tempCurrentTime);
                     }
                 }
-                i = i + 1;
                 pinOne.low();
                 pinTwo.low();
                 /*-----------------------|Smart Temp Feedback Code|-----------------------*/
-                if (i < inductionTime) {
+                if (((startTime - currentTime) / 1000) < inductionTime) {
                     /*-----------------------|Beggining Induction|-----------------------*/
                     if (temp < sysData.inductionTemp) {
                         if (sysData.systemOutput) {
@@ -128,11 +130,11 @@ public class LogicRelay {
                         pinTwo.high();
                     }
                     if (sysData.systemOutput) {
-                        if ((((inductionTime - i)) % 10) == 0) {
-                            System.out.println("\nSYSTEM - Sample " + ID + " Induction time remaining: " + ((inductionTime - i)));
+                        if ((((inductionTime - ((startTime - currentTime) / 1000))) % 10) == 0) {
+                            System.out.println("\nSYSTEM - Sample " + ID + " Induction time remaining: " + ((inductionTime - ((startTime - currentTime) / 1000))));
                         }
                     }
-                } else if ((i < (inductionTime + respondTime)) && (i > inductionTime)) {
+                } else if ((((startTime - currentTime) / 1000) < (inductionTime + respondTime)) && (i > inductionTime)) {
                     /*-----------------------|Beginning Respond|-----------------------*/
                     if (temp < sysData.respondTemp) {
                         if (sysData.systemOutput) {
@@ -150,17 +152,17 @@ public class LogicRelay {
                         pinTwo.high();
                     }
                     if (sysData.systemOutput) {
-                        if ((((inductionTime - i)) % 10) == 0) {
-                            System.out.println("\nSYSTEM - Sample " + ID + " Respond time remaining: " + ((respondTime - i + inductionTime)));
+                        if (((((inductionTime - ((startTime - currentTime) / 1000))) % 10) == 0)) {
+                            System.out.println("\nSYSTEM - Sample " + ID + " Respond time remaining: " + ((respondTime - ((startTime - currentTime) / 1000) + inductionTime)));
                         }
                     }
                 }
-                if ((i > inductionTime) && check) {
+                if ((((startTime - currentTime) / 1000) > inductionTime) && check) {
                     check = false;
                     System.out.println("\nSYSTEM - Sample " + ID + " Induction completed");
                 }
                 //timer.waitSeconds(1);
-                System.out.println("\nTICK");
+                //System.out.println("\nTICK");
             }
             System.out.println("\nSYSTEM - Sample " + ID + "incubation completed, setting MUX");
             this.shutDown();
