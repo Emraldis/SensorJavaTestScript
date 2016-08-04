@@ -23,7 +23,7 @@ public class DelayManager {
         start = System.currentTimeMillis();
         second = start;
         while(second < (start + (seconds * 1000))){
-            Thread.sleep(1);
+            Thread.sleep(100);
             second = System.currentTimeMillis();
         }
     }
