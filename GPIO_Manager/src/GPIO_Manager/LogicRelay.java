@@ -100,9 +100,8 @@ public class LogicRelay {
                 pinOne.low();
                 pinTwo.low();
                 /*-----------------------|Smart Temp Feedback Code|-----------------------*/
-                if (((currentTime - startTime) / 1000) < inductionTime) {
+                if (((currentTime - startTime) / 1000) < inductionTime - 1) {
                     /*-----------------------|Beggining Induction|-----------------------*/
-                    System.out.println("\nTick");
                     if (temp < sysData.inductionTemp) {
                         if (sysData.systemOutput) {
                             System.out.println("\nSYSTEM - Current temperature: " + temp + " degrees Celcius");
@@ -123,7 +122,7 @@ public class LogicRelay {
                             System.out.println("\nSYSTEM - Sample " + ID + " Induction time remaining: " + ((inductionTime - ((currentTime - startTime) / 1000))));
                         }
                     }
-                } else if ((((currentTime - startTime) / 1000) < (inductionTime + respondTime)) && (((currentTime - startTime) / 1000) >= inductionTime)) {
+                } else if ((((currentTime - startTime) / 1000) < (inductionTime + respondTime - 1)) && (((currentTime - startTime) / 1000) >= inductionTime - 1)) {
                     /*-----------------------|Beginning Respond|-----------------------*/
                     if (temp < sysData.respondTemp) {
                         if (sysData.systemOutput) {
