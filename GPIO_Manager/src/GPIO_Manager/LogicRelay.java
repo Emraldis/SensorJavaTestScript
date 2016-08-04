@@ -147,6 +147,7 @@ public class LogicRelay {
                     System.out.println("\nSYSTEM - Sample " + ID + " Induction completed");
                 }
                 timer.waitSeconds(1);
+                System.out.println("\nTICK");
             }
             System.out.println("\nSYSTEM - Sample " + ID + "incubation completed, setting MUX");
             this.shutDown();
